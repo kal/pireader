@@ -5,8 +5,18 @@ class Feed(models.Model):
 
     title = models.CharField(max_length=255)
     url = models.CharField(max_length=255)
+    html_url = models.CharField(max_length=255, blank=True, null=True, default=None)
     last_checked = models.DateTimeField(blank=True, null=True, editable=False, default=None)
     last_updated = models.DateTimeField(blank=True, null=True, editable=False, default=None)
 
     def __unicode__(self):
         return self.url
+
+
+class Category(models.Model):
+    """
+    This model represents the categories that are used to group related feeds together.
+    A feed can be placed in 0 or more categories
+    """
+    tag = models.CharField(max_length=255)
+    feeds = models.ManyToManyField(Feed, related_name='categories')

@@ -1,0 +1,30 @@
+{% extends "reader/base_jquery.html" %}
+{% block title %}PiReader Home{% endblock %}
+{% block main %}
+    <div class="actions">
+        <a href="{% url 'reader:import' %}">Import Subscriptions</a>
+    </div>
+    <div class="feeds">
+        {% if categories %}
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        <div>{{ category.tag }}</div>
+                        <ul>
+                            {% for feed in category.feeds %}
+                                <li><a href="{{ feed.html_url }}">{{ feed.title }}></a></li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {%  if uncategorized %}
+            <ul>
+                {% for feed in uncategorized %}
+                    <li><a href="{{ feed.html_url|default:'#' }}">{{ feed.title }}</a></li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}

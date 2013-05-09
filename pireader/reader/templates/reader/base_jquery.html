@@ -1,0 +1,9 @@
+{% extends "reader/base_generic.html" %}
+{% load static %}
+{% block styleref %}
+    <link rel="stylesheet" href="{% static 'reader/styles/jquery-ui.min.css' %}"/>
+{% endblock %}
+{% block scriptref %}
+    <script src="{% static 'reader/js/jquery-1.9.1.min.js' %}"></script>
+    <script src="{% static 'reader/js/jquery-ui.min.js' %}"></script>
+{% endblock %}

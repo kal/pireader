@@ -1,13 +1,14 @@
 __author__ = 'kal'
 
 from django_cron import CronJobBase, Schedule
-from models import Feed
+from models import Feed, Category
 import sys
 import feedparser
 from django.utils import timezone
 from storage import FeedStore
-from time import strftime, mktime, gmtime
 import os.path
+import opml
+
 
 class FeedProcessorJob(CronJobBase):
     RUN_EVERY_MINS = 0
@@ -50,6 +51,51 @@ class FeedProcessorJob(CronJobBase):
         try:
             self.__store.add_entry(str(feed.id), entry)
         except:
-            print "Failed to process entry {0}. Cause {1}".format(entry, sys.exc_info()[0   ])
+            print "Failed to process entry {0}. Cause {1}".format(entry, sys.exc_info()[0])
 
 
+class NoFeedsFound(Exception):
+    pass
+
+def import_opml(url_or_string):
+    outline = opml.from_string(url_or_string)
+    if len(outline) == 0:
+        raise NoFeedsFound()
+    for outline_element in outline:
+        process_outline(outline_element)
+
+
+def process_outline(outline_element, tag=None):
+    if getattr(outline_element, 'type', '') == 'rss':
+        add_feed(outline_element, tag)
+    else:
+        tag = getattr(outline_element, 'title', None)
+        for child_element in outline_element:
+            process_outline(child_element, tag)
+
+
+def add_feed(outline_element, tag=None):
+    feed_url = outline_element.xmlUrl
+    try:
+        return Feed.objects.get(url=feed_url)
+    except Feed.DoesNotExist:
+        category = assert_category(tag)
+        feed = Feed.objects.create(
+            url=feed_url,
+            title=getattr(outline_element, 'title', feed_url),
+            html_url=getattr(outline_element, 'htmlUrl', None))
+        feed.save()
+        if not category is None:
+            category.feeds.add(feed)
+            category.save()
+
+
+def assert_category(category_tag):
+    if category_tag is None:
+        return None
+    try:
+        return Category.objects.get(tag=category_tag)
+    except Category.DoesNotExist:
+        category = Category.objects.create(tag=category_tag)
+        category.save()
+        return category

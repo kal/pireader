@@ -4,12 +4,13 @@ from django.utils import timezone
 import datetime
 import os
 from storage import FeedStore
+import feedprocessor
 from time import gmtime, strftime
 import shutil
 
 
 TEST_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_data_"+ strftime("%Y%m%d%H%M%S", gmtime()))
-
+TESTDATA_PATH = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../testdata"))
 
 class FeedStoreTests(TestCase):
 
@@ -91,3 +92,22 @@ class FeedStoreTests(TestCase):
         counts_after = fs.get_feed_counts()
         self.assertEqual(0, counts_after[feed_id])
 
+
+class OpmlTests(TestCase):
+
+    def test_simple_opml_import(self):
+        with open(os.path.join(TESTDATA_PATH, 'simple.opml')) as f:
+            feedprocessor.import_opml(f.read())
+        self.assertEqual(6, Feed.objects.count())
+        lrb_blog = Feed.objects.get(title='LRB blog')
+        self.assertIsNotNone(lrb_blog)
+        self.assertEqual('http://www.lrb.co.uk/blog/feed/', lrb_blog.url)
+        self.assertEqual('http://www.lrb.co.uk/blog', lrb_blog.html_url)
+        sparql = Feed.objects.get(title='newest questions tagged sparql - Stack Overflow')
+        self.assertIsNotNone(sparql)
+        self.assertEqual('http://stackoverflow.com/feeds/tag?tagnames=sparql&sort=newest', sparql.url)
+
+
+    def test_google_opml_import(self):
+        with open(os.path.join(TESTDATA_PATH, 'google.opml')) as f:
+            feedprocessor.import_opml(f.read())

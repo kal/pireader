@@ -1,0 +1,12 @@
+{% extends "reader/base_generic.html" %}
+{% block title %}PiReader - Import Subscription{% endblock %}
+{% block main %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% if import_failed %}
+            <p class="error">Sorry but the file you provided could not be imported. Please check that it is a valid OPML file.</p>
+        {% endif %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit"/>
+    </form>
+{% endblock %}

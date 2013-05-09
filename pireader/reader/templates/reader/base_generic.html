@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}PiReader{% endblock %}</title>
+    {% block styleref %}{% endblock %}
+    {% block scriptref %}{% endblock %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div id="header"></div>
+    <div id="main">{% block main %}{% endblock %}</div>
+    <div id="footer"></div>
+</body>
+</html>
