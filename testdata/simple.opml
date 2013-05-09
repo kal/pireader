@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>kal subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline text="Charlie's Diary" title="Charlie's Diary"
+            type="rss"
+            xmlUrl="http://www.antipope.org/charlie/blog-static/index.xml" htmlUrl="http://www.antipope.org/charlie/blog-static/"/>
+        <outline text="LRB blog" title="LRB blog" type="rss"
+            xmlUrl="http://www.lrb.co.uk/blog/feed/" htmlUrl="http://www.lrb.co.uk/blog"/>
+        <outline
+            text="newest questions tagged nosql c# - Stack Overflow"
+            title="newest questions tagged nosql c# - Stack Overflow"
+            type="rss"
+            xmlUrl="http://stackoverflow.com/feeds/tag?tagnames=nosql+c%23&amp;sort=newest" htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=nosql+c%23&amp;amp;sort=newest"/>
+        <outline text="newest questions tagged sparql - Stack Overflow"
+            title="newest questions tagged sparql - Stack Overflow"
+            type="rss"
+            xmlUrl="http://stackoverflow.com/feeds/tag?tagnames=sparql&amp;sort=newest" htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=sparql&amp;amp;sort=newest"/>
+        <outline text="ongoing" title="ongoing" type="rss"
+            xmlUrl="http://www.tbray.org/ongoing/ongoing.atom" htmlUrl="https://www.tbray.org/ongoing/"/>
+        <outline text="Open Knowledge Foundation Blog"
+            title="Open Knowledge Foundation Blog" type="rss"
+            xmlUrl="http://blog.okfn.org/rss" htmlUrl="http://blog.okfn.org"/>
+    </body>
+</opml>

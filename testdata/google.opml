@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>kal subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline text="Charlie's Diary" title="Charlie's Diary"
+            type="rss"
+            xmlUrl="http://www.antipope.org/charlie/blog-static/index.xml" htmlUrl="http://www.antipope.org/charlie/blog-static/"/>
+        <outline text="LRB blog" title="LRB blog" type="rss"
+            xmlUrl="http://www.lrb.co.uk/blog/feed/" htmlUrl="http://www.lrb.co.uk/blog"/>
+        <outline
+            text="newest questions tagged nosql c# - Stack Overflow"
+            title="newest questions tagged nosql c# - Stack Overflow"
+            type="rss"
+            xmlUrl="http://stackoverflow.com/feeds/tag?tagnames=nosql+c%23&amp;sort=newest" htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=nosql+c%23&amp;amp;sort=newest"/>
+        <outline text="newest questions tagged sparql - Stack Overflow"
+            title="newest questions tagged sparql - Stack Overflow"
+            type="rss"
+            xmlUrl="http://stackoverflow.com/feeds/tag?tagnames=sparql&amp;sort=newest" htmlUrl="http://stackoverflow.com/questions/tagged/?tagnames=sparql&amp;amp;sort=newest"/>
+        <outline text="ongoing" title="ongoing" type="rss"
+            xmlUrl="http://www.tbray.org/ongoing/ongoing.atom" htmlUrl="https://www.tbray.org/ongoing/"/>
+        <outline text="Open Knowledge Foundation Blog"
+            title="Open Knowledge Foundation Blog" type="rss"
+            xmlUrl="http://blog.okfn.org/rss" htmlUrl="http://blog.okfn.org"/>
+        <outline title="Coding" text="Coding">
+            <outline
+                text="CodeBetter.Com - Stuff you need to Code Better!"
+                title="CodeBetter.Com - Stuff you need to Code Better!"
+                type="rss"
+                xmlUrl="http://feeds2.feedburner.com/CodeBetter" htmlUrl="http://codebetter.com"/>
+            <outline text="Coding 4 Fun" title="Coding 4 Fun" type="rss"
+                xmlUrl="http://channel9.msdn.com/coding4fun/rss" htmlUrl="http://channel9.msdn.com/coding4fun/rss"/>
+            <outline text="Coding Horror" title="Coding Horror"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/codinghorror/" htmlUrl="http://www.codinghorror.com/blog/"/>
+            <outline text="ScottGu's Blog" title="ScottGu's Blog"
+                type="rss"
+                xmlUrl="http://weblogs.asp.net/scottgu/rss.aspx" htmlUrl="http://weblogs.asp.net/scottgu/default.aspx"/>
+            <outline text="Silverlight SDK" title="Silverlight SDK"
+                type="rss"
+                xmlUrl="http://blogs.msdn.com/silverlight_sdk/rss.xml" htmlUrl="http://blogs.msdn.com/b/silverlight_sdk/"/>
+            <outline text="The Daily WTF" title="The Daily WTF"
+                type="rss"
+                xmlUrl="http://syndication.thedailywtf.com/TheDailyWtf" htmlUrl="http://thedailywtf.com/"/>
+        </outline>
+        <outline title="Azure" text="Azure">
+            <outline text="Avkash Chauhan's Blog"
+                title="Avkash Chauhan's Blog" type="rss"
+                xmlUrl="http://blogs.msdn.com/b/avkashchauhan/rss.aspx" htmlUrl="http://blogs.msdn.com/b/avkashchauhan/"/>
+            <outline text="blog.smarx.com - cloud development blog"
+                title="blog.smarx.com - cloud development blog"
+                type="rss" xmlUrl="http://blog.smarx.com/atom" htmlUrl="http://blog.smarx.com/"/>
+            <outline text="Windows Azure" title="Windows Azure"
+                type="rss"
+                xmlUrl="http://blogs.msdn.com/b/windowsazure/rss.aspx" htmlUrl="http://blogs.msdn.com/b/windowsazure/"/>
+        </outline>
+        <outline title="Comics" text="Comics">
+            <outline text="Axe Cop Episodes" title="Axe Cop Episodes"
+                type="rss"
+                xmlUrl="http://axecop.com/index.php/achome/rss_2.0/" htmlUrl="http://axecop.com/index.php/acepisodes/"/>
+            <outline text="AxeCop" title="AxeCop" type="rss"
+                xmlUrl="http://axecop.com/index.php/webs/rss_2.0/" htmlUrl="http://axecop.com/index.php/site/index/"/>
+            <outline text="Bully Says: Comics Oughta Be Fun!"
+                title="Bully Says: Comics Oughta Be Fun!" type="rss"
+                xmlUrl="http://feeds.feedburner.com/blogspot/gZMU" htmlUrl="http://bullyscomics.blogspot.com/"/>
+            <outline text="Chris’s Invincible Super-Blog"
+                title="Chris’s Invincible Super-Blog" type="rss"
+                xmlUrl="http://www.the-isb.com/?feed=rss2" htmlUrl="http://www.the-isb.com"/>
+            <outline text="Dilbert Daily Strip"
+                title="Dilbert Daily Strip" type="rss"
+                xmlUrl="http://feeds.feedburner.com/DilbertDailyStrip" htmlUrl="http://dilbert.com/"/>
+            <outline text="Fake Science" title="Fake Science" type="rss"
+                xmlUrl="http://fakescience.tumblr.com/rss" htmlUrl="http://fakescience.org/"/>
+            <outline text="xkcd.com" title="xkcd.com" type="rss"
+                xmlUrl="http://xkcd.com/rss.xml" htmlUrl="http://xkcd.com/"/>
+        </outline>
+        <outline title="Silverlight" text="Silverlight">
+            <outline
+                text=".NET, Silverlight, Windows Azure, and other ramblings (from the UK)"
+                title=".NET, Silverlight, Windows Azure, and other ramblings (from the UK)"
+                type="rss"
+                xmlUrl="http://silverlightuk.blogspot.com/feeds/posts/default?alt=rss" htmlUrl="http://silverlightuk.blogspot.com/"/>
+            <outline text="Design with Silverlight"
+                title="Design with Silverlight" type="rss"
+                xmlUrl="http://designwithsilverlight.com/feed/" htmlUrl="http://designwithsilverlight.com"/>
+            <outline text="Microsoft Silverlight content"
+                title="Microsoft Silverlight content" type="rss"
+                xmlUrl="http://silverlight.net/blogs/microsoft/rss.aspx" htmlUrl="http://blogs.silverlight.net/blogs/microsoft/default.aspx"/>
+            <outline text="Pete Brown's Blog (POKE 53280,0)"
+                title="Pete Brown's Blog (POKE 53280,0)" type="rss"
+                xmlUrl="http://feeds.feedburner.com/PeteBrown" htmlUrl="http://10rem.net"/>
+            <outline text="Silverlight Feeds" title="Silverlight Feeds"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/SilverlightFeeds" htmlUrl="http://silverlightfeeds.com"/>
+            <outline text="Silverlight Games 101"
+                title="Silverlight Games 101" type="rss"
+                xmlUrl="http://feeds.feedburner.com/SilverlightGames101?format=xml" htmlUrl="http://blogs.silverarcade.com/silverlight-games-101"/>
+        </outline>
+        <outline title="ASP.NET" text="ASP.NET">
+            <outline text="Channel 9" title="Channel 9" type="rss"
+                xmlUrl="http://channel9.msdn.com/Feeds/RSS/" htmlUrl="http://channel9.msdn.com/"/>
+            <outline text="The .NET Endpoint" title="The .NET Endpoint"
+                type="rss"
+                xmlUrl="http://blogs.msdn.com/endpoint/rss.xml" htmlUrl="http://blogs.msdn.com/b/endpoint/"/>
+        </outline>
+        <outline title="Semantic Web" text="Semantic Web">
+            <outline text="blog.aksw.org" title="blog.aksw.org"
+                type="rss" xmlUrl="http://blog.aksw.org/feed/" htmlUrl="http://blog.aksw.org"/>
+            <outline text="graph-database.org"
+                title="graph-database.org" type="rss"
+                xmlUrl="http://www.graph-database.org/feed/rss/" htmlUrl="http://www.graph-database.org"/>
+            <outline text="Planet RDF" title="Planet RDF" type="rss"
+                xmlUrl="http://planetrdf.com/index.rdf" htmlUrl="http://planetrdf.com/"/>
+            <outline text="Semantic Web" title="Semantic Web" type="rss"
+                xmlUrl="http://www.semanticweb.com/icom_includes/feeds/special/semantic-10.xml" htmlUrl="http://semanticweb.com"/>
+            <outline text="Semantic Web Company"
+                title="Semantic Web Company" type="rss"
+                xmlUrl="http://www.semantic-web.at/rss.php" htmlUrl="http://www.semantic-web.at"/>
+            <outline text="topicmaps Questions - Semantic Overflow"
+                title="topicmaps Questions - Semantic Overflow"
+                type="rss"
+                xmlUrl="http://www.semanticoverflow.com/feeds/tag/topicmaps" htmlUrl="http://www.semanticoverflow.com/questions/tagged/topicmaps"/>
+            <outline text="W3C Semantic Web Activity News"
+                title="W3C Semantic Web Activity News" type="rss"
+                xmlUrl="http://www.w3.org/blog/SW?tempskin=_atom" htmlUrl="http://www.w3.org/blog/SW"/>
+            <outline text="Web of Data" title="Web of Data" type="rss"
+                xmlUrl="http://webofdata.wordpress.com/feed/" htmlUrl="http://webofdata.wordpress.com"/>
+        </outline>
+        <outline title="Photography" text="Photography">
+            <outline text="Film Photography Project"
+                title="Film Photography Project" type="rss"
+                xmlUrl="http://filmphotographyproject.com/rss" htmlUrl="https://filmphotographyproject.com/content"/>
+            <outline text="From fuzz'ed's contacts"
+                title="From fuzz'ed's contacts" type="rss"
+                xmlUrl="http://api.flickr.com/services/feeds/photos_friends.gne?user_id=67566370@N00&amp;friends=0&amp;display_all=1&amp;lang=en-us&amp;format=rss_200" htmlUrl="http://www.flickr.com/photos/fuzzed/friends/"/>
+            <outline text="Leica News &amp; Rumors"
+                title="Leica News &amp; Rumors" type="rss"
+                xmlUrl="http://leicarumors.com/feed/" htmlUrl="http://leicarumors.com"/>
+            <outline text="Leica User Forum - Film Forum"
+                title="Leica User Forum - Film Forum" type="rss"
+                xmlUrl="http://www.l-camera-forum.com/leica-forum/external.php?type=RSS2&amp;forumids=30" htmlUrl="http://www.l-camera-forum.com/leica-forum"/>
+            <outline text="Leica User Forum - Leica M8 Forum"
+                title="Leica User Forum - Leica M8 Forum" type="rss"
+                xmlUrl="http://www.l-camera-forum.com/leica-forum/external.php?type=RSS2&amp;forumids=31" htmlUrl="http://www.l-camera-forum.com/leica-forum"/>
+            <outline text="Rangefinderforum.com"
+                title="Rangefinderforum.com" type="rss"
+                xmlUrl="http://www.rangefinderforum.com/forums/external.php?type=RSS2" htmlUrl="http://www.rangefinderforum.com/forums"/>
+            <outline text="STEVE HUFF PHOTOS" title="STEVE HUFF PHOTOS"
+                type="rss" xmlUrl="http://www.stevehuffphoto.com/feed/" htmlUrl="http://www.stevehuffphoto.com"/>
+        </outline>
+    </body>
+</opml>

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?><feed
+  xmlns="http://www.w3.org/2005/Atom"
+  xmlns:thr="http://purl.org/syndication/thread/1.0"
+  xml:lang="en-US"
+  xml:base="http://www.networkedplanet.com/wp-atom.php"
+   >
+	<title type="text">Networked Planet</title>
+	<subtitle type="text">Data integration and metadata management solutions</subtitle>
+
+	<updated>2013-05-09T15:32:11Z</updated>
+
+	<link rel="alternate" type="text/html" href="http://www.networkedplanet.com" />
+	<id>http://www.networkedplanet.com/feed/atom/</id>
+	<link rel="self" type="application/atom+xml" href="http://www.networkedplanet.com/feed/atom/" />
+
+	<generator uri="http://wordpress.org/" version="3.5.1">WordPress</generator>
+		<entry>
+		<author>
+			<name>jen</name>
+					</author>
+		<title type="html"><![CDATA[SharePoint Module 3.3 now available for SharePoint 2013]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-3-now-available-for-sharepoint-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-3-now-available-for-sharepoint-2013" />
+		<id>http://www.networkedplanet.com/?p=1322</id>
+		<updated>2013-05-09T15:32:11Z</updated>
+		<published>2013-05-09T15:32:11Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="TMCore SharePoint Module" />		<summary type="html"><![CDATA[<p>NetworkedPlanet are pleased to announce the release of version 3.3 of the TMCore SharePoint Module. The TMCore SharePoint Module 3.3 is a tight integration between Microsoft SharePoint 2013 and the TMCore information management server that greatly improves the way information is organised, classified and located with Microsoft SharePoint solutions. This new release includes all the features and [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/sharepoint-module-3-3-now-available-for-sharepoint-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-3-now-available-for-sharepoint-2013"><![CDATA[<p>NetworkedPlanet are pleased to announce the release of version 3.3 of the TMCore SharePoint Module.</p>
+<p>The TMCore SharePoint Module 3.3 is a tight integration between Microsoft SharePoint 2013 and the TMCore information management server that greatly improves the way information is organised, classified and located with Microsoft SharePoint solutions.<br />
+This new release includes all the features and enhancements of the SharePoint Module 3.2 hotfix 5, and is packaged to be installed on SharePoint 2013.</p>
+<p>The new version is available for all customers with a current maintenance contract. Due to the complex upgrade process needed to upgrade SharePoint 2007/2010 to SharePoint 2013, we advise all current customers to <a href="mailto:contact@networkedplanet.com">contact us</a> with details of your current solutions so that we can advise you of the best steps to take to ensure a smooth upgrade of the SharePoint Module alongside your SharePoint upgrade.</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-3-now-available-for-sharepoint-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-3-now-available-for-sharepoint-2013#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/sharepoint-module-3-3-now-available-for-sharepoint-2013/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>kal</name>
+					</author>
+		<title type="html"><![CDATA[Open Data On The Web : April 2013]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/open-data-on-the-web-april-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=open-data-on-the-web-april-2013" />
+		<id>http://www.networkedplanet.com/?p=1311</id>
+		<updated>2013-04-25T16:12:35Z</updated>
+		<published>2013-04-25T14:45:05Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Linked Data" /><category scheme="http://www.networkedplanet.com" term="Theory and Practice" /><category scheme="http://www.networkedplanet.com" term="linked data" /><category scheme="http://www.networkedplanet.com" term="open data" /><category scheme="http://www.networkedplanet.com" term="sparql" />		<summary type="html"><![CDATA[<p>I was privileged to be one of the attendees of the Open Data on the Web workshop organized by W3C and hosted by Google in London this week. I say privileged because the gathering brought together researchers, developers and entrepreneurs from all around the world together in a unique mix that I&#8217;m sure won&#8217;t be [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/open-data-on-the-web-april-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=open-data-on-the-web-april-2013"><![CDATA[<p>I was privileged to be one of the attendees of the Open Data on the Web workshop organized by W3C and hosted by Google in London this week. I say privileged because the gathering brought together researchers, developers and entrepreneurs from all around the world together in a unique mix that I&#8217;m sure won&#8217;t be achieved again until Phil Archer at W3C organizes the next one.<br />
+In the following I have not used direct quotes from those named as I didn&#8217;t make many notes of direct quotations. I hope that I have not misrepresented anyone, but if I have, please let me know and I will fix the text. This is not a journalistic report, its more a reflection of my concerns through the prism of a lot of people way smarter than me saying a lot of interesting things.</p>
+<p><strong>Sustainability</strong></p>
+<p>The workshop was kicked off by John Sheridan reminding us that to build anything of permanence one needs to get the fundamentals right &#8211; providing for discovery (a topic that was to come up again and again during the workshop); cementing our offerings so that people can have confidence not only in the data itself but also in our commitment to sustaining that data.</p>
+<p>Sustained data publishing was another topic that came up in several talks. In John&#8217;s talk he asked us if we would be willing to mortgage our house to start a business based on the current crop of open data. While some brave souls have done just that, there is a general feeling that there just is not the confidence in the sustained availability and maintenance of open data. As Alvaro Graves commented later in the day, publishing data is like having children, you can&#8217;t just push it out of the door and leave it to get on with its life, you have a commitment to it (another analogy that resonates more with geeks like me is to open source &#8211; a successful project involves far more effort than simply putting source on GitHub; you have a commitment to documentation, updates, support for your users and development of new features).</p>
+<p>One of the issues highlighted, again by Alvaro, is the current trend of releasing data created through hackathons, which tends to promote the one-off data dump model that makes the data less suitable for building on. Possible solutions to this problem were a little thin on the ground. John Sheridan suggested that there probably exists a spectrum of solutions from a community-driven data publishing effort at one end, through institutional commitment and contracts, to legislative / statutory backing at the other end. There was much talk of the role that government has to play in getting this commitment to sustainability off the ground. Governments tend to have control over critical information infrastructure (mapping data, data about core service provision, address data etc); and tend to have data that needs to be updated or reported on on a regular cycle. Both of these factors make governments amongst the first institutions that should be leaned on to make a sustained commitment to publishing open data. I feel it is our responsibility as a community of evangelists and developers to get the right tools into the hands of potential consumers of that data, and those tools should have some means of providing feedback to the data publishers &#8211; there needs to be a virtuous circle, where data publishers are recognized for their contribution and get visibility on the value they enable as a means to encourage them to continue publishing data.</p>
+<p><strong>Make It Simpler ?</strong></p>
+<p>Another key theme that took me somewhat by surprise was a number of speakers advocating for open data to be published in simpler formats: by which I think all meant CSV. For Mark Birbeck, the challenge was not so much getting data into RDF but getting data that aligns consistently (in terms of the coding for time frames, geospatial references etc). Mark also pointed out that tabular data such as CSV is far easier to process with line-oriented tools and also with data analytics tools such as Hadoop. Rufus Pollock from the Open Knowledge Foundation and Omar Benjelloun from Google both presented data packaging formats (Simple Data Format and DSPL) both of which seek to make collections of tabular data available in a downloadable package that includes metadata. Meanwhile on the same panel Stuart Williams of Epimorphics was valiantly putting the point that in some cases the metadata, especially provenance metadata can not only dwarf the data itself, but is fundamental in determining the confidence that can be placed in the data.</p>
+<p>In the two days of the workshop I saw as much effort expended on the question of &#8220;simply&#8221; publishing CSV data as on almost any other aspect of linked open data on the web. I find that a bit disheartening, it feels like the community is actively making a retrograde step. I have nothing against the publication of CSV as a stop-gap measure to address the need for open data, but I worry that the amount of attention this issue receives from the Linked Open Data (LOD) community detracts from other, equally important issues and will send the message that CSV is OK for LOD. There are undoubtedly some who believe this to be the case, but I am totally unconvinced that CSV is a suitable format for *linked* open data.</p>
+<p><strong>Data As A Service</strong></p>
+<p>This discussion around CSV packaging and publication and other discussions during the workshop raised another interesting question that I haven&#8217;t really spent a lot of time considering and that is the tension between offering data as a resource and offering data as a service. When I&#8217;m putting together demos or looking for data to hack I often want to get a data dump, pull all the data onto my machine where I can run it through the processes I want to apply to it. When I just want to look something up (say in MusicBrainz or DBPedia) however, I&#8217;ll use SPARQL &#8211; I don&#8217;t want gigabytes of RDF data on my machine to answer a query like &#8220;who played in the Grateful Dead&#8221;. There seemed to be some doubt about whether data that sits behind a service can be trusted to be as sustainably available as data available as a dump. In fact it was a question put to me after my presentation on OData / SPARQL interoperability. The fact that the data is accessed by a query API means that the consumer is dependent on the server for continued access to data. It was suggested that if you are building a business based on using data behind a service you don&#8217;t control you may feel nervous about that. However, I feel that there are two strong counter arguments:</p>
+<ol>
+<li>There are well-understood mechanisms for reducing that nervousness &#8211; distribution / mirroring of popular services is one; service level agreements for commercial access to data services is another.</li>
+<li>The web already consists of any number of applications that depend on big third-party APIs such as Flickr and Twitter. The fact that you can&#8217;t get a data dump of tweets or photo metadata doesn&#8217;t seem to have prevented people building applications and even businesses on these APIs.</li>
+</ol>
+<p>In fact, this issue with data services is basically just a reformulation of the need for sustainability and the points made by John Sheridan that I outlined at the top of this piece. I don&#8217;t see the &#8220;download it all to my machine&#8221; as a scalable solution &#8211; it doesn&#8217;t scale up to handle terabyte science data and it doesn&#8217;t efficiently scale down to enable true semantic web applications for smaller devices. Effective distributed query *has* to be the way that LOD moves to ubiquitous consumption &#8211; we aren&#8217;t there yet, but if we want to keep our eyes five or ten years forwards then we can&#8217;t be thinking of solutions that rely on local mash-ups of data dumps. Even in the here and now, we heard from a number of presenters that providers of open data want to be able to measure the impact and usage of their data. This, I think, could tend to preference data services over data dumps due to the quality of usage data that monitoring service API accesses can provide. That said, there is a role for both properly packaged data dumps and open data services and perhaps publishers should be considering more carefully if their data dump should be accompanied by a SPARQL and/or OData endpoint, and if their data services should be accompanied by raw data dumps. I detected a undercurrent of insistence that data behind a service API is not &#8220;open&#8221; &#8211; I believe that is wrong, and dangerously so.</p>
+<p><strong>Discoverability</strong></p>
+<p>Omar Benjelloun from Google in his presentation also made the point that data sets need good web pages. To which I can only say &#8220;amen&#8221; &#8211; too many data sets that are near impossible to find through web search engines and despite the efforts of CKAN a directory of open data is always going to be hard to maintain and to scale. If we are publishing data on the web, lets make sure that it is discoverable. Aggregators such as CKAN help to some extent but web-scale discoverability can only be quickly achieved by leveraging the existing web-scale search infrastructure. Christopher Gutteridge from Southampton University raised some interesting concerns around the trustworthiness of data discovered through uncritical web crawling, but I think that adopting the sort of practices he advocates for double checking whether data found within a domain is truly sanctioned by the domain owner may prove to be critical, especially when applications are automatically discovering data sets.</p>
+<p><strong>Attribution &amp; Licensing</strong></p>
+<p>This is one of those can of worms areas that (a) is more a social issue than a technical one and (b) is probably not going to get a lot of attention because, quite frankly most people find it boring. However its a critical component of LOD that will only cause greater problems the longer it is left to fester. Leigh Dodds has already done some initial research and thinking in this area and outlined some of the issues. The issues in this area that interest me are:</p>
+<ul>
+<li>Would it be possible to simplify open data licensing through a Creative Commons-style approach of defining a set of licenses with a well-defined set of attributes to them that can be used to govern how data is attributed and linked to and uses to which it can be put ?</li>
+<li>What does it mean when a consumer of LOD publishes another data-set derived from one or more source data-sets. Are data licenses viral ? What level of remixing is sufficient for a work to count as a new unique work ? I am sure that there is precedent in offline publishing and online content publishing &#8211; the question is are such precedents appropriate ? Will we need to test this in case law (as was suggested by Bob Schloss from IBM in a different session).</li>
+<li>What does it mean when a consumer of LOD publishes an application that internally makes use of one or more data sets or a data set synthesized from one or more data sets, but does not display the data (for example using Wordnet in a natural language interface)</li>
+<li>How can we make a solution scale for:
+<ul>
+<li>Applications that make use of hundreds or thousands of data sets</li>
+<li>Applications that discover data sets at run-time</li>
+</ul>
+</li>
+</ul>
+<p><strong>And there was so much more</strong></p>
+<p>Writing up the last of these notes on the train on the way home from the workshop I am both frazzled and buzzing. In the last 48 hours I have learned about stuff that I want to emulate, things that I need to make sure go into our products and things that are just going to worry me for years to come. In these 2000 words, I feel I have really only scraped the surface and I&#8217;m sure that there was a load of stuff that just went completely over my head. I&#8217;ll leave it to others to fill in all the gaps I have left in my truly partial account of an amazing event.</p>
+<p>The agenda for the day, along with links to the papers and presentations are all available <a href="http://www.w3.org/2013/04/odw/">here on the W3C website</a>. My own presentation on OData/SPARQL interoperability is also available <a href="http://www.slideshare.net/NetworkedPlanet/o-data-sparqlinterop">here on Slideshare</a>.</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/open-data-on-the-web-april-2013/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=open-data-on-the-web-april-2013#comments" thr:count="1"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/open-data-on-the-web-april-2013/feed/atom/" thr:count="1"/>
+		<thr:total>1</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>kal</name>
+					</author>
+		<title type="html"><![CDATA[TMCore Documentation Now Online]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/tmcore-documentation-now-online/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-documentation-now-online" />
+		<id>http://www.networkedplanet.com/?p=1307</id>
+		<updated>2013-04-22T13:23:42Z</updated>
+		<published>2013-04-22T13:22:31Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Announcements" />		<summary type="html"><![CDATA[<p>We are gradually uploading HTML and some PDF documentation to the website to make it easier for you to access the docs without having to install the relevant product. The latest step in this effort has been to put TMCore documentation online. The documentation we have uploaded is for the latest TMCore07 SP6 release. You [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/tmcore-documentation-now-online/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-documentation-now-online"><![CDATA[<p>We are gradually uploading HTML and some PDF documentation to the website to make it easier for you to access the docs without having to install the relevant product. The latest step in this effort has been to put <a href="http://www.networkedplanet.com/support/documentation/tmcore07sp6/index.html">TMCore documentation</a> online. The documentation we have uploaded is for the latest <a href="http://www.networkedplanet.com/tmcore07-sp6-released/" title="TMCore07 SP6 Released">TMCore07 SP6 release</a>. </p>
+<p>You can <a href="/support/documentation">access all the available documentation here</a>.</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/tmcore-documentation-now-online/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-documentation-now-online#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/tmcore-documentation-now-online/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>kal</name>
+					</author>
+		<title type="html"><![CDATA[TMCore07 SP6 Released]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/tmcore07-sp6-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore07-sp6-released" />
+		<id>http://www.networkedplanet.com/?p=1297</id>
+		<updated>2013-04-09T15:24:53Z</updated>
+		<published>2013-04-09T13:16:16Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="TMCore" /><category scheme="http://www.networkedplanet.com" term="releases" /><category scheme="http://www.networkedplanet.com" term="tmcore" />		<summary type="html"><![CDATA[<p>A new update for NetworkedPlanet&#8217;s TMCore topic map engine is now available for download. This release addresses the following issues: Compatibility fixes for using TMEditor in IE 9 and 10. Minor bug fix to prevent applications from incorrectly reporting that the database schema version is newer than expected. Minor documentation updates and clarifications This release [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/tmcore07-sp6-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore07-sp6-released"><![CDATA[<p>A new update for NetworkedPlanet&#8217;s TMCore topic map engine is now available for download. <span id="more-1297"></span>This release addresses the following issues:</p>
+<ul>
+<li>Compatibility fixes for using TMEditor in IE 9 and 10.</li>
+<li>Minor bug fix to prevent applications from incorrectly reporting that the database schema version is newer than expected.</li>
+<li>Minor documentation updates and clarifications</li>
+</ul>
+<p>This release introduces no new API changes or database schema changes from the previous TMCore07 SP5 release and is a recommended upgrade for all customers.</p>
+<p><a title="Download TMCore07 SP6" href="/download/tmcore/tmcore07sp6.zip">Download the update now</a>.</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/tmcore07-sp6-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore07-sp6-released#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/tmcore07-sp6-released/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>kal</name>
+					</author>
+		<title type="html"><![CDATA[TMCore EPiServer Module 7.0 Released]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/tmcore-episerver-module-7-0-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-episerver-module-7-0-released" />
+		<id>http://www.networkedplanet.com/?p=972</id>
+		<updated>2013-04-02T08:04:07Z</updated>
+		<published>2013-04-02T08:04:07Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Announcements" /><category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="TMCore EPiServer Module" /><category scheme="http://www.networkedplanet.com" term="episerver" /><category scheme="http://www.networkedplanet.com" term="episervermodule" /><category scheme="http://www.networkedplanet.com" term="releases" />		<summary type="html"><![CDATA[<p>Today we release a new version of the popular TMCore EPiServer Module built specifically for the new EPiServer CMS 7. The TMCore EPiServer Module extends EPiServer CMS 7 with several key abilities: Link site content to a domain knowledge model consisting of a network of related concepts. Create bidirectional, semantic links between pages. Create conceptual [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/tmcore-episerver-module-7-0-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-episerver-module-7-0-released"><![CDATA[<p>Today we release a new version of the popular TMCore EPiServer Module built specifically for the new EPiServer CMS 7.</p>
+<p>The TMCore EPiServer Module extends EPiServer CMS 7 with several key abilities:</p>
+<ul>
+<li>Link site content to a domain knowledge model consisting of a network of related concepts.</li>
+<li>Create bidirectional, semantic links between pages.</li>
+<li>Create conceptual &#8220;hub&#8221; pages that provide a single point of entry for all information relating to a particular concept.</li>
+</ul>
+<p>This new version of the TMCore EPiServer Module provides an editing environment that is integrated into the new CMS 7 editor as well as providing backwards compatibility with the editing environment carried over from CMS 6.</p>
+<p>The TMCore EPiServer Module 7.0 is available now as an upgrade for all customers with a current valid support contract. For upgrades please email support@networkedplanet.com.</p>
+<p>Requirements:</p>
+<ul>
+<li>TMCore07 Service Pack 4 or later (upgrading customers can also receive a free upgrade to the latest version of TMCore07).</li>
+<li>EPiServer CMS 7</li>
+<li>.NET 4.0</li>
+<li>Visual Studio 2010 or later for site development.</li>
+</ul>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/tmcore-episerver-module-7-0-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=tmcore-episerver-module-7-0-released#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/tmcore-episerver-module-7-0-released/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>jen</name>
+					</author>
+		<title type="html"><![CDATA[SharePoint Module 3.2 Hotfix 5 released]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-5-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-5-released" />
+		<id>http://www.networkedplanet.com/?p=914</id>
+		<updated>2013-04-03T11:14:44Z</updated>
+		<published>2012-09-19T09:27:20Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="hotfix" /><category scheme="http://www.networkedplanet.com" term="sharepoint module" />		<summary type="html"><![CDATA[<p>A new hotfix package is available for version 3.2 of the TMCore SharePoint Module. Systems Affected This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 19th September 2012. If you downloaded your copy of the software from our site on or after this date, the hotfix is included [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-5-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-5-released"><![CDATA[<div id="_mcePaste">A new hotfix package is available for version 3.2 of the TMCore SharePoint Module.</div>
+<div><strong>Systems Affected</strong></div>
+<p>This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 19th September 2012. If you downloaded your copy of the software from our site on or after this date, the hotfix is included in the package and you do not need to apply it again.</p>
+<p>To determine if your system is affected, check the File Version property of the assembly NetworkedPlanet.SharePoint in the GAC (browse to C:\Windows\ASSEMBLY, locate the NetworkedPlanet.SharePoint assembly, right-click and choose Properties. The File Version can be found on the Version tab above Description and Copyright). This hotfix updates the File Version of the NetworkedPlanet.SharePoint assembly to 2.2.5.0 &#8211; if the file version shown is greater than or equal to 2.2.5.0, then you do not need to apply this hotfix.</p>
+<p><strong>Upgrade Instructions</strong></p>
+<p>1. Download the hotfix 5 package for <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix5_2007.zip">SharePoint 2007</a> or <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix5_2010.zip">SharePoint 2010</a>.</p>
+<p>2. The package is provided in a compressed ZIP file. Unzip the package on a machine in the server farm.</p>
+<p>3. Upgrade the NPSharePoint.wsp solution. The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</p>
+<pre>stsadm -o upgradesolution -name NPSharePoint.wsp -filename NPSharePoint.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>4. Upgrade the NPOfficeServer.wsp solution. Use the following STSADM command:</p>
+<pre>stsadm -o upgradesolution -name NPOfficeServer.wsp -filename NPOfficeServer.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>5. Restart IIS and Windows SharePoint Services Timer</p>
+<p><strong>Change Log</strong></p>
+<p>BUGFIX: Fixed a false negative being returned in the SynchronizationTask and ProfileScraperTask when site collection URLs were part of an Alternate Access Mapping within the timer job&#8217;s Web Application</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-5-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-5-released#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-5-released/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>jen</name>
+					</author>
+		<title type="html"><![CDATA[SharePoint Module 3.2 Hotfix 4 now available]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-4-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-4-now-available" />
+		<id>http://www.networkedplanet.com/?p=899</id>
+		<updated>2013-04-03T11:14:19Z</updated>
+		<published>2012-07-30T11:17:34Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="hotfix" /><category scheme="http://www.networkedplanet.com" term="sharepoint module" />		<summary type="html"><![CDATA[<p>A new hotfix package is available for version 3.2 of the TMCore SharePoint Module. This package addresses a small number of bugs and enhancements. The full change list can be found below. Systems Affected This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 20th August 2010. If you [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-4-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-4-now-available"><![CDATA[<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">A new hotfix package is available for version 3.2 of the TMCore SharePoint Module. This package addresses a small number of bugs and enhancements. The full change list can be found below.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Systems Affected</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 20th August 2010. If you downloaded your copy of the software from our site on or after this date, the hotfix is included in the package and you do not need to apply it again.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">To determine if your system is affected, check the File Version property of the assembly NetworkedPlanet.SharePoint in the GAC (browse to C:\Windows\ASSEMBLY, locate the NetworkedPlanet.SharePoint assembly, right-click and choose Properties. The File Version can be found on the Version tab above Description and Copyright). This hotfix updates the File Version of the NetworkedPlanet.SharePoint assembly to 2.2.1.0 &#8211; if the file version shown is greater than or equal to 2.2.1.0, then you do not need to apply this hotfix.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Upgrade Instructions</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">1. Download the hotfix 1 package for SharePoint 2007 or SharePoint 2010.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">2. The package is provided in a compressed ZIP file. Unzip the package on a machine in the server farm.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">3. Upgrade the NPSharePoint.wsp solution. The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">stsadm -o upgradesolution -name NPSharePoint.wsp -filename NPSharePoint.wsp -allowgacdeployment -allowcaspolicies -local</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">4. Upgrade the NPOfficeServer.wsp solution. Use the following STSADM command:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">stsadm -o upgradesolution -ame NPOfficeServer.wsp -filename NPOfficeServer.wsp -allowgacdeployment -allowcaspolicies -local</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">5. Restart IIS and Windows SharePoint Services Timer</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Change Log</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: Stored procedures for OneHop and TwoHop Query Web Parts were updated toimprove concurrency. There was no change to the interfaces for these stored procedures.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: An optional property can now be used to delay processing of the profilescraper. The property sets a sleep period in milliseconds between each profile changebeing processed.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">BUGFIX: Reduced the amount of SharePOint ItemUpdated events that are fired when an itemis deleted which is associated to other SharePoint items.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: Optimised code to ensure references to the NPCL schema are usingcached schema whenever needed.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">BUGFIX: Associated Topic Field Control was disposing of an active Web object</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: The profile scraper has been optimised to avoid unnecessary lookups ofuser topics in order to pass these topic ids to any custom profile scraper plug-ins.</div>
+<p>A new hotfix package is available for version 3.2 of the TMCore SharePoint Module.</p>
+<p><strong>Systems Affected</strong></p>
+<p>This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 30th July 2012. If you downloaded your copy of the software from our site on or after this date, the hotfix is included in the package and you do not need to apply it again.</p>
+<p>To determine if your system is affected, check the File Version property of the assembly NetworkedPlanet.SharePoint in the GAC (browse to C:\Windows\ASSEMBLY, locate the NetworkedPlanet.SharePoint assembly, right-click and choose Properties. The File Version can be found on the Version tab above Description and Copyright). This hotfix updates the File Version of the NetworkedPlanet.SharePoint assembly to 2.2.4.0 &#8211; if the file version shown is greater than or equal to 2.2.4.0, then you do not need to apply this hotfix.</p>
+<p><strong>Upgrade Instructions</strong></p>
+<p>1. Download the hotfix 4 package for <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix4_2007.zip">SharePoint 2007</a> or <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix4_2010.zip">SharePoint 2010</a>.</p>
+<p>2. The package is provided in a compressed ZIP file. Unzip the package on a machine in the server farm.</p>
+<p>3. Upgrade the NPSharePoint.wsp solution. The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</p>
+<pre>stsadm -o upgradesolution -name NPSharePoint.wsp -filename NPSharePoint.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>4. Upgrade the NPOfficeServer.wsp solution. Use the following STSADM command:</p>
+<pre>stsadm -o upgradesolution -name NPOfficeServer.wsp -filename NPOfficeServer.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>5. Restart IIS and Windows SharePoint Services Timer</p>
+<p><strong>Change Log</strong></p>
+<p>BUGFIX: Formatting error when converting datetime occurrence values into sortable datetime strings during item additions/updates</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-4-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-4-now-available#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-4-now-available/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>jen</name>
+					</author>
+		<title type="html"><![CDATA[Concepts for SharePoint 2.2 released]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/concepts-for-sharepoint-2-2-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=concepts-for-sharepoint-2-2-released" />
+		<id>http://blogs.networkedplanet.com/?p=698</id>
+		<updated>2013-04-03T11:15:16Z</updated>
+		<published>2012-06-21T11:59:27Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Concepts for SharePoint" /><category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="concepts for sharepoint" /><category scheme="http://www.networkedplanet.com" term="releases" />		<summary type="html"><![CDATA[<p>Version 2.2 of Concepts for SharePoint is now available. This package addresses a small number of bugs and enhancements. </p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/concepts-for-sharepoint-2-2-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=concepts-for-sharepoint-2-2-released"><![CDATA[<div>
+<p>Version 2.2 of Concepts for SharePoint is now available. This package addresses a small number of bugs and enhancements. The full change list and upgrade instructions can be found below.</p>
+<p>The Concepts for SharePoint package can be requested from the <a href="http://www.networkedplanet.com/solutions/concepts-for-sharepoint/">NetworkedPlanet main website</a>.</p>
+<p><strong>Upgrading instructions</strong><br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;</p>
+<p>Unzip the download package and run the STSADM -upgradesolution command.  The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</p>
+<p>stsadm -o upgradesolution -name ConceptsForSharePoint.wsp -filename ConceptsForSharePoint.wsp -allowgacdeployment -local</p>
+<p>Restart IIS and the SharePoint 2010 Timer Service</p>
+<p>If running CfS on a separate server to that of the Web3 Platform, you will also need to upgrade the additional web3.wsp file contained in the upgrade package and restart the services.</p>
+<p>For full upgrade and usage instructions, please refer to the documentation contained in the downloaded package.</p>
+<p><strong>Changelog</strong><br />
+&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8211;<br />
+ENHANCEMENT: Depreciated OneHopQueryWebPart in favour of AjaxHopWebPart</p>
+<p>ENHANCEMENT: Removed reliance on MSMQ from term store synchronization. Synchronization now gets data directly from Web3 Platform database</p>
+<p>ENHANCEMENT: Changes to Web Part styling to better fit in with deafult SharePoint styling</p>
+<p>FEATURE: Added the ability to set whether subject identifiers and name properties of topics are to be added to the term store as term synonyms</p>
+<p>ENHANCEMENT: Changed synchronization timer jobs to run either as a full sync or incremental &#8211; schedules can be set for each in SharePoint Central Administration</p>
+<p>ENHANCEMENT: Added additional exception details to logging if an exception is encountered</p>
+</div>
+<div>ENHANCEMENT: Added additional configuration for the connection to the Web3 database. Administrators can set pass through authentication or set specific user credentialsENHANCEMENT: Performance enhancement to search crawler by getting topic information directly from the Web3 databaseENHANCEMENT: performance enhancement to search by reducing amount of queries in the Business Data ConnectorFEATURE: New CheckInstallation stsadm command that can be run after installation/upgrade to check for common problemsBUGFIX: made the url parameter of &#8220;createweb3contenttype&#8221; stsadm command non-optional to avoid problems with action links from SharePoint search resultsBUGFIX: Special characters in topic names were causing duplicate terms to be created in the term store.</p>
+</div>
+<p>&nbsp;</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/concepts-for-sharepoint-2-2-released/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=concepts-for-sharepoint-2-2-released#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/concepts-for-sharepoint-2-2-released/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>jen</name>
+					</author>
+		<title type="html"><![CDATA[SharePoint Module 3.2 Hotfix 3 now available]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-3-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-3-now-available" />
+		<id>http://blogs.networkedplanet.com/?p=696</id>
+		<updated>2013-04-03T11:20:11Z</updated>
+		<published>2012-06-15T14:51:14Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Product Announcements" /><category scheme="http://www.networkedplanet.com" term="TMCore SharePoint Module" /><category scheme="http://www.networkedplanet.com" term="hotfix" /><category scheme="http://www.networkedplanet.com" term="sharepoint module" />		<summary type="html"><![CDATA[<p>A new hotfix package is available for version 3.2 of the TMCore SharePoint Module. This package addresses a small number of bugs and enhancements. The full change list can be found below. Systems Affected This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 20th August 2010. If you [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-3-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-3-now-available"><![CDATA[<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">A new hotfix package is available for version 3.2 of the TMCore SharePoint Module. This package addresses a small number of bugs and enhancements. The full change list can be found below.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Systems Affected</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 20th August 2010. If you downloaded your copy of the software from our site on or after this date, the hotfix is included in the package and you do not need to apply it again.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">To determine if your system is affected, check the File Version property of the assembly NetworkedPlanet.SharePoint in the GAC (browse to C:WindowsASSEMBLY, locate the NetworkedPlanet.SharePoint assembly, right-click and choose Properties. The File Version can be found on the Version tab above Description and Copyright). This hotfix updates the File Version of the NetworkedPlanet.SharePoint assembly to 2.2.1.0 &#8211; if the file version shown is greater than or equal to 2.2.1.0, then you do not need to apply this hotfix.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Upgrade Instructions</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">1. Download the hotfix 1 package for SharePoint 2007 or SharePoint 2010.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">2. The package is provided in a compressed ZIP file. Unzip the package on a machine in the server farm.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">3. Upgrade the NPSharePoint.wsp solution. The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">stsadm -o upgradesolution -name NPSharePoint.wsp -filename NPSharePoint.wsp -allowgacdeployment -allowcaspolicies -local</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">4. Upgrade the NPOfficeServer.wsp solution. Use the following STSADM command:</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">stsadm -o upgradesolution -ame NPOfficeServer.wsp -filename NPOfficeServer.wsp -allowgacdeployment -allowcaspolicies -local</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">5. Restart IIS and Windows SharePoint Services Timer</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">Change Log</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: Stored procedures for OneHop and TwoHop Query Web Parts were updated toimprove concurrency. There was no change to the interfaces for these stored procedures.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: An optional property can now be used to delay processing of the profilescraper. The property sets a sleep period in milliseconds between each profile changebeing processed.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">BUGFIX: Reduced the amount of SharePOint ItemUpdated events that are fired when an itemis deleted which is associated to other SharePoint items.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: Optimised code to ensure references to the NPCL schema are usingcached schema whenever needed.</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">BUGFIX: Associated Topic Field Control was disposing of an active Web object</div>
+<div id="_mcePaste" style="position: absolute; left: -10000px; top: 0px; width: 1px; height: 1px; overflow-x: hidden; overflow-y: hidden;">ENHANCEMENT: The profile scraper has been optimised to avoid unnecessary lookups ofuser topics in order to pass these topic ids to any custom profile scraper plug-ins.</div>
+<p>A new hotfix package is available for version 3.2 of the TMCore SharePoint Module.</p>
+<p><strong>Systems Affected</strong></p>
+<p>This hotfix should be applied to any installation of the TMCore SharePoint Module 3.2 downloaded before 15th June 2012. If you downloaded your copy of the software from our site on or after this date, the hotfix is included in the package and you do not need to apply it again.</p>
+<p>To determine if your system is affected, check the File Version property of the assembly NetworkedPlanet.SharePoint in the GAC (browse to C:WindowsASSEMBLY, locate the NetworkedPlanet.SharePoint assembly, right-click and choose Properties. The File Version can be found on the Version tab above Description and Copyright). This hotfix updates the File Version of the NetworkedPlanet.SharePoint assembly to 2.2.3.0 &#8211; if the file version shown is greater than or equal to 2.2.3.0, then you do not need to apply this hotfix.</p>
+<p><strong>Upgrade Instructions</strong></p>
+<p>1. Download the hotfix 3 package for <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix3_2007.zip">SharePoint 2007</a> or <a href="http://www.networkedplanet.com/download/spmodule/NetworkedPlanet.SharePoint.3.2.Hotfix3_2010.zip">SharePoint 2010</a>.</p>
+<p>2. The package is provided in a compressed ZIP file. Unzip the package on a machine in the server farm.</p>
+<p>3. Upgrade the NPSharePoint.wsp solution. The exact command-line you use will depend on how you want to schedule the upgrade, but will be similar to:</p>
+<pre>stsadm -o upgradesolution -name NPSharePoint.wsp -filename NPSharePoint.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>4. Upgrade the NPOfficeServer.wsp solution. Use the following STSADM command:</p>
+<pre>stsadm -o upgradesolution -name NPOfficeServer.wsp -filename NPOfficeServer.wsp -allowgacdeployment -allowcaspolicies -local</pre>
+<p>5. Restart IIS and Windows SharePoint Services Timer</p>
+<p><strong>Change Log</strong></p>
+<p>BUGFIX: Hierarchy topic selector was experiencing a javascript error when topic names contained apostrophes</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-3-now-available/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=sharepoint-module-3-2-hotfix-3-now-available#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/sharepoint-module-3-2-hotfix-3-now-available/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+		<entry>
+		<author>
+			<name>kal</name>
+					</author>
+		<title type="html"><![CDATA[Web3 2.0 Javascript Hotfix]]></title>
+		<link rel="alternate" type="text/html" href="http://www.networkedplanet.com/web3-2-0-javascript-hotfix/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=web3-2-0-javascript-hotfix" />
+		<id>http://blogs.networkedplanet.com/?p=690</id>
+		<updated>2013-04-03T11:23:42Z</updated>
+		<published>2012-03-13T16:13:05Z</published>
+		<category scheme="http://www.networkedplanet.com" term="Web3 Platform" /><category scheme="http://www.networkedplanet.com" term="hotfix" /><category scheme="http://www.networkedplanet.com" term="web3" />		<summary type="html"><![CDATA[<p>A new hotfix for Web3 2.0 has just been released to correct some problems with cross-browser compatibility in the topic map editor application. This hotfix addresses the following issues: BUGFIX: Editing hierarchy subject identifiers in IE9 was resulting in an invalid URI as the behaviour of that browser is to wrap strings recognized as URLs [...]</p>
+]]></summary>
+		<content type="html" xml:base="http://www.networkedplanet.com/web3-2-0-javascript-hotfix/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=web3-2-0-javascript-hotfix"><![CDATA[<p>A new hotfix for Web3 2.0 has just been released to correct some problems with cross-browser compatibility in the topic map editor application. This hotfix addresses the following issues:</p>
+<ul>
+<li>BUGFIX: Editing hierarchy subject identifiers in IE9 was resulting in an invalid URI as the behaviour of that browser is to wrap strings recognized as URLs in an HTML &lt;A&gt; tag.</li>
+<li>FEATURE: Added facility for deleting a hierarchy definition from within the Topic Map Editor. This can be accessed by selecting the hierarchy from the Hierarchies panel and then clicking on the trash-can icon at the top of the middle panel. Deleting a hierarchy definition removes only the definition, not the associations that make up the hierarchy.</li>
+</ul>
+<h3>Download</h3>
+<p>The new hotfix can be downloaded from <a title="Download the Hotfix" href="http://www.networkedplanet.com/download/download.aspx?file=web3/2.0Hotfix1/Web3_2.0_ServerHotfix.zip">http://www.networkedplanet.com/download/download.aspx?file=web3/2.0Hotfix1/Web3_2.0_ServerHotfix.zip</a></p>
+<h3>Installation</h3>
+<ol>
+<li>Download the hotfix ZIP file using the link above.</li>
+<li>Unzip the file to a temporary directory.</li>
+<li>The hotfix consists of two directories of files &#8211; css and js. Copy these two directories to the Web3 server directory (typically C:Program FilesNetworkedPlanetWeb3Server), overwriting the contents of the existing css and js directories.</li>
+<li>After applying this hotfix a client browsing the site may need to use a force refresh (ctrl-F5 or ctrl-R) to ensure that the browser picks up the updated Javascript and CSS.</li>
+</ol>
+<h3>Relevant Versions</h3>
+<p>This hotfix is only provided and test for Web3 2.0.</p>
+]]></content>
+		<link rel="replies" type="text/html" href="http://www.networkedplanet.com/web3-2-0-javascript-hotfix/?utm_source=rss&#038;utm_medium=rss&#038;utm_campaign=web3-2-0-javascript-hotfix#comments" thr:count="0"/>
+		<link rel="replies" type="application/atom+xml" href="http://www.networkedplanet.com/web3-2-0-javascript-hotfix/feed/atom/" thr:count="0"/>
+		<thr:total>0</thr:total>
+	</entry>
+	</feed>
