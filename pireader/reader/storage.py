@@ -2,20 +2,22 @@ import os
 from time import gmtime, mktime, strftime
 import cPickle
 import itertools
+from django.conf import settings
 import sys
-
 
 class FeedStore:
 
     KEEP_CHARACTERS = [' ', '.', '_']
 
-    def __init__(self, baseDir):
-        self._baseDirectory = baseDir
+    def __init__(self):
+        self._baseDirectory = settings.READER['data_path']
         self._feedsDirectory = os.path.join(self._baseDirectory, 'feeds')
         self.__ensure_directory(self._feedsDirectory)
 
     def ensure_feed_directory(self, feed_id):
-        self.__ensure_directory(self.__get_feed_directory(str(feed_id)))
+        feed_dir = self.__get_feed_directory(feed_id)
+        self.__ensure_directory(feed_dir)
+        self.__ensure_directory(os.path.join(feed_dir, 'read'))
 
     def add_entry(self, feed_id, entry):
         fn = self.__make_entry_filename(entry)
@@ -23,13 +25,13 @@ class FeedStore:
         if not os.path.exists(entry_filename):
             self.__write_entry(entry, entry_filename)
 
-    def delete_entry(self, feed_id, entry_name):
+    def mark_read(self, feed_id, entry_name):
         try:
-            os.remove(os.path.join(self.__get_feed_directory(feed_id), entry_name))
+            feed_dir = self.__get_feed_directory(feed_id)
+            os.rename(os.path.join(feed_dir, entry_name), os.path.join(feed_dir, 'read', entry_name))
         except:
-            print sys.exc_info()
             # If the entry is gone, just continue
-            #pass
+            pass
 
     def get_feed_counts(self):
         feed_counts = {}

@@ -2,11 +2,16 @@
 {% block title %}PiReader Home{% endblock %}
 {% block main %}
     <div class="actions">
-        <a href="{% url 'reader:import' %}">Import Subscriptions</a>
+        <a class="link-button" href="{% url 'reader:import' %}">Import Subscriptions</a>
+        <a id="subscribe_button" href="#">Add Subscription</a>
+        <div id="subscribe_form" style="display:none">
+            <label for="feed_url">Paste or type in a feed URL</label><br/>
+            <input id="feed_url" type="text"/> <input id="add_button" type="submit" value="Add"/>
+        </div>
     </div>
-    <div class="feeds">
+    <div id="feeds">
         {% if categories %}
-            <ul>
+            <ul id="categories">
                 {% for category in categories %}
                     <li>
                         <div>{{ category.tag }}</div>
@@ -20,11 +25,26 @@
             </ul>
         {% endif %}
         {%  if uncategorized %}
-            <ul>
+            <ul id="uncategorized">
                 {% for feed in uncategorized %}
                     <li><a href="{{ feed.html_url|default:'#' }}">{{ feed.title }}</a></li>
                 {% endfor %}
             </ul>
         {% endif %}
     </div>
+{% endblock %}
+{% block scripts %}
+    <script type="text/javascript">
+    $(function(){
+        $("#subscribe_button").button().click(function(event){
+            $("#subscribe_form").slideToggle();
+            event.preventDefault();
+        });
+        $("#add_button").button().click(function(event){
+            validate_and_add_subscription($);
+        });
+        $("a.link-button").button();
+
+    });
+    </script>
 {% endblock %}

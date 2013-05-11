@@ -165,3 +165,7 @@ LOGGING = {
 CRON_CLASSES = {
     "reader.feedprocessor.FeedProcessorJob"
 }
+
+READER = {
+    'data_path' : os.path.join(os.path.dirname(os.path.realpath(__file__)), 'reader', 'data')
+}

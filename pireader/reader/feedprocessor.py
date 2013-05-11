@@ -1,6 +1,7 @@
 __author__ = 'kal'
 
 from django_cron import CronJobBase, Schedule
+from django_cron.models import CronJobLog
 from models import Feed, Category
 import sys
 import feedparser
@@ -8,7 +9,6 @@ from django.utils import timezone
 from storage import FeedStore
 import os.path
 import opml
-
 
 class FeedProcessorJob(CronJobBase):
     RUN_EVERY_MINS = 0
@@ -21,35 +21,40 @@ class FeedProcessorJob(CronJobBase):
 
         :param feed_store: storage.FeedStore
         """
-        self.__store = feed_store or FeedStore(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'data'))
+        self.__store = feed_store or FeedStore()
 
     def do(self):
         try:
             for f in Feed.objects.all():
-                self.process_feed(f)
+                try:
+                    self.process_feed(f)
+                except:
+                    log = CronJobLog(message="Failed to process feed {0}. Cause: {1}".format(f, sys.exc_info()))
+                    log.save()
         except:
             print "Unexpected exception: ", sys.exec_info()[0]
 
     def process_feed(self, f):
-        try:
-            self.__store.ensure_feed_directory()
-            d = feedparser.parse(f.url)
-            if self.should_process(f, d):
-                print "Entry count: {0}".format(len(d.entries))
-                for e in d.entries:
-                    self.process_entry(f, e)
-            f.last_checked = timezone.now()
-            f.save()
-        except:
-            print "Failed to process feed {0}. Cause {1}".format(f.url, sys.exc_info()[0])
+        feed_id = str(f.id)
+        self.__store.ensure_feed_directory(feed_id)
+        d = feedparser.parse(f.url)
+        if self.should_process(f, d):
+            for e in d.entries:
+                self.process_entry(feed_id, e)
+        f.last_checked = timezone.now()
+        if (not f.title) and (d['feed'].has_key('title')):
+            f.title = d['feed']['title']
+        if (not f.html_url) and (d['feed'].has_key('link')):
+            f.html_url = d['feed']['link']
+        f.save()
 
     def should_process(self, feed, feed_content):
         """Return True if the feed content indicates that there may be one or more new items to add for the feed"""
         return True
 
-    def process_entry(self, feed, entry):
+    def process_entry(self, feed_id, entry):
         try:
-            self.__store.add_entry(str(feed.id), entry)
+            self.__store.add_entry(feed_id, entry)
         except:
             print "Failed to process entry {0}. Cause {1}".format(entry, sys.exc_info()[0])
 
@@ -99,3 +104,8 @@ def assert_category(category_tag):
         category = Category.objects.create(tag=category_tag)
         category.save()
         return category
+
+
+def initialize(feed):
+    processor = FeedProcessorJob()
+    processor.process_feed(feed)
