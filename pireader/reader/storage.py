@@ -46,6 +46,7 @@ class FeedStore:
         entry_files = os.listdir(feed_dir)
         entry_files.sort()
         keep_dir = self.__get_keep_directory(feed_id)
+        self.__ensure_directory(keep_dir)
         keep_files = os.listdir(keep_dir)
         keep_files.sort()
         keeps = [os.path.join(keep_dir, f) for f in keep_files if os.path.isfile(os.path.join(keep_dir, f))]

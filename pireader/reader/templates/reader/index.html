@@ -10,32 +10,15 @@
         </div>
     </div>
     <div id="feeds">
-        {% if categories %}
-            <ul id="categories">
-                {% for category in categories %}
-                    <li>
-                        <div>{{ category.tag }}</div>
-                        <ul>
-                            {% for feed in category.feeds %}
-                                <li><a href="{{ feed.html_url }}">{{ feed.title }}></a></li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-        {%  if uncategorized %}
-            <ul id="uncategorized">
-                {% for feed in uncategorized %}
-                    <li><a href="{{ feed.html_url|default:'#' }}">{{ feed.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
     </div>
 {% endblock %}
 {% block scripts %}
     <script type="text/javascript">
     $(function(){
+        $.get('subscriptions', callback = function(data, textStatus, xhr){
+            console.log("Subscriptions:", data);
+            load_subscription(data);
+        });
         $("#subscribe_button").button().click(function(event){
             $("#subscribe_form").slideToggle();
             event.preventDefault();

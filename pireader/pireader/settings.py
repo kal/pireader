@@ -167,5 +167,5 @@ CRON_CLASSES = {
 }
 
 READER = {
-    'data_path' : os.path.join(os.path.dirname(os.path.realpath(__file__)), 'reader', 'data')
+    'data_path' : os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'reader', 'data')
 }

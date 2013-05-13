@@ -8,9 +8,13 @@ class Feed(models.Model):
     html_url = models.CharField(max_length=255, blank=True, null=True, default=None)
     last_checked = models.DateTimeField(blank=True, null=True, editable=False, default=None)
     last_updated = models.DateTimeField(blank=True, null=True, editable=False, default=None)
+    is_deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
-        return self.url
+        if self.is_deleted:
+            return self.url
+        else:
+            return self.url + " **deleted**"
 
 class Category(models.Model):
     """

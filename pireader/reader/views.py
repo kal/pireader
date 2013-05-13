@@ -15,12 +15,7 @@ def index(request):
     """
     Delivers the reader home page
     """
-    context = {
-        'categories': Category.objects.select_related('feeds').all(),
-        'uncategorized': Feed.objects.filter(categories__isnull=True)
-    }
-    print context['uncategorized']
-    return render(request, 'reader/index.html', context)
+    return render(request, 'reader/index.html')
 
 
 def import_subscription(request):
@@ -90,20 +85,22 @@ def feed(request, feed_id='0'):
         data = request.read()
         feed_update = json.loads(data)
         store = FeedStore()
-        if 'flag' in feed_update:
-            for read_item in feed_update['flag']:
-                store.keep_unread(feed_id, read_item, True)
-        if 'unflag' in feed_update:
-            for item in feed_update['unflag']:
-                store.keep_unread(feed_id, read_item, False)
+        if 'keep' in feed_update:
+            for item in feed_update['keep']:
+                store.keep(feed_id, item)
+        if 'unkeep' in feed_update:
+            for item in feed_update['unkeep']:
+                store.unkeep(feed_id, item)
         if 'read' in feed_update:
-            for read_item in feed_update['read']:
-                store.mark_read(feed_id, read_item)
-        return HttpResponse()
+            for item in feed_update['read']:
+                store.mark_read(feed_id, item)
+    elif request.method == "DELETE":
+        feed.is_deleted = True
+        feed.save()
         #if 'tag' in feed_update:
         #    for item_tag in feed_update['tag']:
         #        store.tag_item(item_tag['item'], item_tag['tag'])
-
+        return HttpResponse()
 
 def is_valid_feed(deserialized_object):
     return hasattr(deserialized_object, 'url')
