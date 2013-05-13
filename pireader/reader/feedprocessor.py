@@ -54,6 +54,7 @@ class FeedProcessorJob(CronJobBase):
 
     def process_entry(self, feed_id, entry):
         try:
+            entry['keep_unread'] = False
             self.__store.add_entry(feed_id, entry)
         except:
             print "Failed to process entry {0}. Cause {1}".format(entry, sys.exc_info()[0])

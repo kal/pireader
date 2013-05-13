@@ -26,13 +26,23 @@ class StoreTestCase(TestCase):
         if os.path.exists(TEST_PATH):
             shutil.rmtree(TEST_PATH)
 
-    def __create_feed(self, title, url, days_since_checked=0, days_since_updated=0):
+    def create_feed(self, title, url, days_since_checked=0, days_since_updated=0):
         now = timezone.now()
         feed = Feed(url=url, title=title,
                                    last_checked=now + datetime.timedelta(days=days_since_checked),
                                    last_updated=now + datetime.timedelta(days=days_since_checked + days_since_updated))
         feed.save()
         return feed
+
+    def populate_feed(self, store, feed_id, entry_count):
+        store.ensure_feed_directory(feed_id)
+        for i in range(1, entry_count + 1):
+            entry = {
+                'title': 'Test Entry',
+                'published_parsed': timezone.now().utctimetuple(),
+                'guid' : 'http://example.org/feed/?p={0}'.format(i)
+            }
+            store.add_entry(feed_id, entry)
 
 
 @override_settings(READER=TEST_READER_SETTINGS)
@@ -44,13 +54,13 @@ class FeedStoreTests(StoreTestCase):
 
     def test_add_entry(self):
         fs = FeedStore()
-        f = self.__create_feed("Feed 1", "http://example.org/feed1/rss", 1)
+        f = self.create_feed("Feed 1", "http://example.org/feed1/rss", 1)
         feed_id = str(f.id)
         fs.ensure_feed_directory(feed_id)
         counts_before = fs.get_feed_counts()
         self.assertTrue(counts_before.has_key(feed_id))
         self.assertEqual(0, counts_before[feed_id])
-        fs.add_entry(f.id, {
+        fs.add_entry(feed_id, {
             'title': 'Test Entry',
             'published_parsed': f.last_updated.utctimetuple(),
             'guid': 'http://example.org/feed1/?p=1'
@@ -67,7 +77,7 @@ class FeedStoreTests(StoreTestCase):
 
     def test_cannot_add_entry_twice(self):
         fs = FeedStore()
-        f = self.__create_feed("MyFeed", "http://example.org/feed", 1)
+        f = self.   create_feed("MyFeed", "http://example.org/feed", 1)
         feed_id = str(f.id)
         fs.ensure_feed_directory(feed_id)
         entry = {
@@ -84,7 +94,7 @@ class FeedStoreTests(StoreTestCase):
 
     def test_read_entry(self):
         fs = FeedStore()
-        f = self.__create_feed('Feed 2', 'http://example.org/feed2/rss', 1)
+        f = self.create_feed('Feed 2', 'http://example.org/feed2/rss', 1)
         feed_id = str(f.id)
         fs.ensure_feed_directory(feed_id)
         entry = {
@@ -100,6 +110,26 @@ class FeedStoreTests(StoreTestCase):
         counts_after = fs.get_feed_counts()
         self.assertEqual(0, counts_after[feed_id])
         self.assertTrue(os.path.exists(os.path.join(TEST_PATH, "feeds", feed_id, 'read', entry['ref'])))
+
+    def test_keep_unread(self):
+        fs = FeedStore()
+        f = self.create_feed('Feed 3', 'http://example.org/feed3/rss', 1)
+        feed_id = str(f.id)
+        fs.ensure_feed_directory(feed_id)
+        self.populate_feed(fs, feed_id, 2)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(2, len(entries))
+        fs.keep(feed_id, entries[0]['ref'])
+        fs.mark_read(feed_id, entries[0]['ref']) # should have no effect
+        fs.mark_read(feed_id, entries[1]['ref']) # should delete entry not in kept directory
+        entries = fs.get_entries(feed_id) # should return the 1 kept item
+        self.assertEqual(1, len(entries))
+        fs.unkeep(feed_id, entries[0]['ref']) # will restore item back to feed directory
+        entries = fs.get_entries(feed_id) # should return 1 item from the feed directory
+        self.assertEqual(1, len(entries))
+        fs.mark_read(feed_id, entries[0]['ref']) # should delete entry
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(0, len(entries))
 
 
 def import_opml(opml_file_name):
@@ -161,19 +191,9 @@ class FeedResourceTests(StoreTestCase):
         for f in Feed.objects.all():
             self.store.ensure_feed_directory(str(f.id))
 
-    def __populate_feed(self, feed_id, entry_count):
-        self.store.ensure_feed_directory(feed_id)
-        for i in range(1, entry_count + 1):
-            entry = {
-                'title': 'Test Entry',
-                'published_parsed': timezone.now().utctimetuple(),
-                'guid' : 'http://example.org/feed/?p={0}'.format(i)
-            }
-            self.store.add_entry(feed_id, entry)
-
     def test_get_one(self):
          # setup
-        self.__populate_feed("1", 1)
+        self.populate_feed(self.store, "1", 1)
         client = Client()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
@@ -182,12 +202,46 @@ class FeedResourceTests(StoreTestCase):
         self.assertEqual('Test Entry', data[0]['title'])
 
     def test_get_many(self):
-        self.__populate_feed("1", 10)
+        self.populate_feed(self.store, "1", 10)
         client = Client()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
         data = json.loads(response.content)
         self.assertEqual(10, len(data))
+
+    def test_read_one(self):
+        self.populate_feed(self.store, "1", 10)
+        client = Client()
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(10, len(entries))
+        update = { 'read' : [entries[0]['ref']] }
+        response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
+                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(9, len(entries))
+
+    def test_read_many(self):
+        self.populate_feed(self.store, "1", 10)
+        client = Client()
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(10, len(entries))
+        update = { 'read' : [] }
+        for e in entries:
+            update['read'].append(e['ref'])
+        response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
+                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(0, len(entries))
 
 def clean_data():
     if os.path.exists(TEST_PATH):

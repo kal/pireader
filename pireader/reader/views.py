@@ -86,6 +86,23 @@ def feed(request, feed_id='0'):
             take = int(request.GET['take'])
         entries = store.get_entries(feed_id, skip=skip, take=take)
         return HttpResponse(json.dumps(entries, cls=TimeHandlingEncoder), mimetype='application/json')
+    elif request.method == "POST":
+        data = request.read()
+        feed_update = json.loads(data)
+        store = FeedStore()
+        if 'flag' in feed_update:
+            for read_item in feed_update['flag']:
+                store.keep_unread(feed_id, read_item, True)
+        if 'unflag' in feed_update:
+            for item in feed_update['unflag']:
+                store.keep_unread(feed_id, read_item, False)
+        if 'read' in feed_update:
+            for read_item in feed_update['read']:
+                store.mark_read(feed_id, read_item)
+        return HttpResponse()
+        #if 'tag' in feed_update:
+        #    for item_tag in feed_update['tag']:
+        #        store.tag_item(item_tag['item'], item_tag['tag'])
 
 
 def is_valid_feed(deserialized_object):
