@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadRequest, HttpResponseServerError, Http404
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django.views.decorators.gzip import gzip_page
 from django.core import serializers
@@ -11,6 +12,7 @@ from forms import ImportForm
 import feedprocessor
 from storage import FeedStore
 
+@ensure_csrf_cookie
 def index(request):
     """
     Delivers the reader home page
@@ -49,10 +51,8 @@ def subscriptions(request):
             serializers.serialize('json', Feed.objects.filter(categories__isnull=True)) + " }"
         return HttpResponse(data, mimetype="application/json")
     elif request.method == "POST":
-        data = request.read()
-        json_feed = json.loads(data)
         try:
-            url = json_feed['url']
+            url = request.REQUEST['url']
         except KeyError:
             return HttpResponseBadRequest()
         try:

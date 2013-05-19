@@ -1,7 +1,7 @@
 {% extends "reader/base_jquery.html" %}
 {% block title %}PiReader Home{% endblock %}
 {% block main %}
-    <div class="actions">
+    <div id="actions">
         <a class="link-button" href="{% url 'reader:import' %}">Import Subscriptions</a>
         <a id="subscribe_button" href="#">Add Subscription</a>
         <div id="subscribe_form" style="display:none">
@@ -9,7 +9,13 @@
             <input id="feed_url" type="text"/> <input id="add_button" type="submit" value="Add"/>
         </div>
     </div>
+    <div id="reader_main">
     <div id="feeds">
+    </div>
+    <div id="items">
+        <h2 id="items_title"></h2>
+        <div id="items_content"></div>
+    </div>
     </div>
 {% endblock %}
 {% block scripts %}
@@ -27,7 +33,11 @@
             validate_and_add_subscription($);
         });
         $("a.link-button").button();
-
+        var main = $('#reader_main');
+        $(window).resize(function(){
+            main.height($(window).height()- main.offset().top);
+        });
+        $(window).resize();
     });
     </script>
 {% endblock %}

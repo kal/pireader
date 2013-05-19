@@ -1,0 +1,32 @@
+#actions {
+    padding:12px;
+}
+
+#feeds {
+    width : 200px;
+    float : left;
+    overflow-y: scroll;
+    height: 100%;
+}
+
+#items {
+    margin-left : 212px;
+    padding-right:12px;
+    overflow-y : auto;
+    height: 100%;
+}
+
+.item {
+    margin: 12px 0px;
+    border: 1px grey solid;
+    padding : 12px;
+}
+
+.item .dateline {
+    float: right;
+    font-size: small;
+}
+
+.current {
+    border-left-color : cornflowerblue;
+}

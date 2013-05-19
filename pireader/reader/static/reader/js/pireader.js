@@ -4,15 +4,33 @@
  */
 
 function validate_and_add_subscription($){
-    var url = $("#feed_url").value();
+    var url = $("#feed_url").val();
     try {
-        url = validate_feed_url(url);
-        $.post("./subscriptions", {'url':url}, function(data, textStatus, jqXHR){
-            $('#categories').append("<li><a href='" + data.html_url + "'>"+ data.title + "</a></li>");
-        }, 'json' )
+        if (validate_feed_url(url)) {
+            $.ajax({
+                type: "POST",
+                url : "./subscriptions",
+                data : {'url':url},
+                success : function(data, textStatus, jqXHR){
+                    $('#categories').append("<li><a href='" + data.html_url + "'>"+ data.title + "</a></li>");
+                    $('#feed_url').val('');
+                    $('#subscribe_form').toggle();
+                },
+                dataType : 'json',
+            headers : {'X-CSRFToken' : getCookie('csrftoken')}});
+        }
     } catch (e){
         return;
     }
+}
+
+/**
+ * Performs client-side validation of a feed subscription URL
+ * @param url - string. The URL to be validated
+ * @returns true if the client-side validation is successful, false otherwise.
+ */
+function validate_feed_url(url){
+    return true;
 }
 
 function load_subscription(subscription){
@@ -48,8 +66,53 @@ function __append_feed_element(parent, feed){
 
 function load_feed(feed_id, feed_title){
     console.log('Loading feed ' + feed_title);
+    $('#items_title').html(feed_title);
+    $('#items_content').empty().html('Loading feed items...')
     $.get('subscriptions/' + feed_id, callback = function(data, textStatus, xhr){
         console.log(data);
+        $('#items_content').empty();
+        $.each(data, function(id, item) {
+           $('#items_content').append(render_item(item));
+        });
     })
 }
 
+function render_item(item){
+    var item_wrapper = $('<div></div>')
+        .addClass('item');
+    // Date line
+    var item_dateline = $('<div/>').addClass('dateline').appendTo(item_wrapper);
+    try {
+        var published = new Date(item.published_parsed);
+        item_dateline.html(published.toLocaleDateString()).appendTo(item_wrapper);
+    } catch (e) {
+        // Ignore and just don't display a dateline
+    }
+    // Article Title
+    $('<h3/>').append($('<a/>').attr('href', item.link).html(item.title)).appendTo(item_wrapper);
+    // Byline
+    var item_byline = $('<div/>').addClass('byline');
+    if (item.author){
+        item_byline.html(item.author);
+    }
+    item_byline.appendTo(item_wrapper);
+    // Article content
+    var item_body = $('<div/>').addClass('item-body').html(item.summary).appendTo(item_wrapper);
+    return item_wrapper;
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
