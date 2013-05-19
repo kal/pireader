@@ -9,6 +9,19 @@
     height: 100%;
 }
 
+#feeds ul {
+    list-style: none;
+    padding : 0;
+    border : 0;
+}
+
+#feeds li {
+    padding-bottom : 0.5em;
+}
+#feeds .count {
+    margin-left: 0.5em;
+}
+
 #items {
     margin-left : 212px;
     padding-right:12px;
@@ -22,11 +35,23 @@
     padding : 12px;
 }
 
+.item h3 {
+    margin:0;
+}
+
+.item .byline {
+    font-size: small;
+    font-weight: lighter;
+}
+
 .item .dateline {
     float: right;
     font-size: small;
 }
 
+.item .item-body {
+    margin-top : 1em;
+}
 .current {
     border-left-color : cornflowerblue;
 }

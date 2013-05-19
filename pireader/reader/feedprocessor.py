@@ -32,7 +32,7 @@ class FeedProcessorJob(CronJobBase):
                     log = CronJobLog(message="Failed to process feed {0}. Cause: {1}".format(f, sys.exc_info()))
                     log.save()
         except:
-            print "Unexpected exception: ", sys.exec_info()[0]
+            print "Unexpected exception: ", sys.exc_info()[0]
 
     def process_feed(self, f):
         feed_id = str(f.id)
@@ -46,6 +46,9 @@ class FeedProcessorJob(CronJobBase):
             f.title = d['feed']['title']
         if (not f.html_url) and (d['feed'].has_key('link')):
             f.html_url = d['feed']['link']
+        counts = self.__store.get_counts(feed_id)
+        f.keep_count = counts['keep']
+        f.unread_count = counts['unread']
         f.save()
 
     def should_process(self, feed, feed_content):
@@ -63,46 +66,47 @@ class FeedProcessorJob(CronJobBase):
 class NoFeedsFound(Exception):
     pass
 
-def import_opml(url_or_string):
-    outline = opml.from_string(url_or_string)
+def import_opml(opml_string, user):
+    outline = opml.from_string(opml_string)
     if len(outline) == 0:
         raise NoFeedsFound()
     for outline_element in outline:
-        process_outline(outline_element)
+        process_outline(outline_element, user)
 
 
-def process_outline(outline_element, tag=None):
+def process_outline(outline_element, user, tag=None):
     if getattr(outline_element, 'type', '') == 'rss':
-        add_feed(outline_element, tag)
+        add_feed(outline_element, user, tag)
     else:
         tag = getattr(outline_element, 'title', None)
         for child_element in outline_element:
-            process_outline(child_element, tag)
+            process_outline(child_element, user, tag)
 
 
-def add_feed(outline_element, tag=None):
+def add_feed(outline_element, user, tag=None):
     feed_url = outline_element.xmlUrl
     try:
         return Feed.objects.get(url=feed_url)
     except Feed.DoesNotExist:
-        category = assert_category(tag)
+        category = assert_category(tag, user)
         feed = Feed.objects.create(
             url=feed_url,
             title=getattr(outline_element, 'title', feed_url),
-            html_url=getattr(outline_element, 'htmlUrl', None))
+            html_url=getattr(outline_element, 'htmlUrl', None),
+            owner=user)
         feed.save()
         if not category is None:
             category.feeds.add(feed)
             category.save()
 
 
-def assert_category(category_tag):
+def assert_category(category_tag, user):
     if category_tag is None:
         return None
     try:
-        return Category.objects.get(tag=category_tag)
+        return Category.objects.get(tag=category_tag, owner=user)
     except Category.DoesNotExist:
-        category = Category.objects.create(tag=category_tag)
+        category = Category.objects.create(tag=category_tag, owner=user)
         category.save()
         return category
 
@@ -110,3 +114,9 @@ def assert_category(category_tag):
 def initialize(feed):
     processor = FeedProcessorJob()
     processor.process_feed(feed)
+
+def update_counts(feed, feed_store):
+    counts = feed_store.get_counts(str(feed.id))
+    feed.keep_count = counts['keep']
+    feed.unread_count = counts['feed']
+    feed.save()

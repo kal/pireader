@@ -91,6 +91,12 @@ class FeedStore:
         self.__write_entry(entry, entry_path)
         os.unlink(keep_path)
 
+    def get_counts(self, feed_id):
+        feed_dir = self.__get_feed_directory(feed_id)
+        keep_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_keep_directory(feed_id))))
+        unread_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_feed_directory(feed_id))))
+        return { 'unread' : unread_files, 'keep' : keep_files }
+
     def __make_entry_filename(self, entry):
         z = gmtime(mktime(entry['published_parsed']))
         ts =  strftime('%Y%m%dT%H%M%SZ', z)

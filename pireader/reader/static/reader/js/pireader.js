@@ -60,7 +60,9 @@ function __append_feed_element(parent, feed){
         feed_link = $('<a href="#">' + feed.fields.title + '</a>').click(function(){
             load_feed(feed.pk, feed.fields.title);
         });
-        $('<li/>').append(feed_link).appendTo(parent);
+        var total = feed.fields.keep_count + feed.fields.unread_count;
+        feed_count = $('<span class="count"/>').html('(' + total.toString() + ')');
+        $('<li/>').append(feed_link).append(feed_count).appendTo(parent);
     }
 }
 

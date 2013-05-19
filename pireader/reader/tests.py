@@ -1,4 +1,3 @@
-from django.core import serializers
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.test.client import Client
@@ -11,7 +10,7 @@ from storage import FeedStore
 import feedprocessor
 from time import gmtime, strftime
 import shutil
-
+from django.contrib.auth.models import User
 
 TEST_PATH = os.path.join(os.path.dirname(os.path.realpath(__file__)), "test_data_"+ strftime("%Y%m%d%H%M%S", gmtime()))
 TESTDATA_PATH = os.path.realpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), "../../testdata"))
@@ -19,18 +18,37 @@ TEST_READER_SETTINGS = {'data_path' : TEST_PATH}
 
 class StoreTestCase(TestCase):
 
+    def setUp(self):
+        TestCase.setUp(self)
+        self.default_user = User.objects.create_user('fred', 'fred@example.org', 'testing')
+        self.default_user.save()
+        self.other_user = User.objects.create_user('bert', 'bert@example.org', 'testing')
+        self.other_user.save()
+
     def tearDown(self):
         self.__clean_data()
+        TestCase.tearDown(self)
+
+    def default_login(self, enforce_csrf_checks = False):
+        client = Client(enforce_csrf_checks=enforce_csrf_checks)
+        client.login(username='fred', password='testing')
+        return client
+
+    def other_login(self):
+        client = Client()
+        client.login(username='bert', password='testing')
+        return client
 
     def __clean_data(self):
         if os.path.exists(TEST_PATH):
             shutil.rmtree(TEST_PATH)
 
-    def create_feed(self, title, url, days_since_checked=0, days_since_updated=0):
+    def create_feed(self, title, url, days_since_checked=0, days_since_updated=0, owner=None):
         now = timezone.now()
         feed = Feed(url=url, title=title,
                                    last_checked=now + datetime.timedelta(days=days_since_checked),
-                                   last_updated=now + datetime.timedelta(days=days_since_checked + days_since_updated))
+                                   last_updated=now + datetime.timedelta(days=days_since_checked + days_since_updated),
+                                   owner = owner or self.default_user)
         feed.save()
         return feed
 
@@ -43,6 +61,13 @@ class StoreTestCase(TestCase):
                 'guid' : 'http://example.org/feed/?p={0}'.format(i)
             }
             store.add_entry(feed_id, entry)
+
+    def import_opml(self, opml_file_name, user = None):
+        if not user:
+            user = self.default_user
+        with open(os.path.join(TESTDATA_PATH, opml_file_name)) as f:
+            feedprocessor.import_opml(f.read(), user)
+
 
 
 @override_settings(READER=TEST_READER_SETTINGS)
@@ -132,15 +157,11 @@ class FeedStoreTests(StoreTestCase):
         self.assertEqual(0, len(entries))
 
 
-def import_opml(opml_file_name):
-    with open(os.path.join(TESTDATA_PATH, opml_file_name)) as f:
-        feedprocessor.import_opml(f.read())
-
 @override_settings(READER=TEST_READER_SETTINGS)
-class OpmlTests(TestCase):
+class OpmlTests(StoreTestCase):
 
     def test_simple_opml_import(self):
-        import_opml('simple.opml')
+        self.import_opml('simple.opml')
         self.assertEqual(6, Feed.objects.count())
         lrb_blog = Feed.objects.get(title='LRB blog')
         self.assertIsNotNone(lrb_blog)
@@ -151,28 +172,45 @@ class OpmlTests(TestCase):
         self.assertEqual('http://stackoverflow.com/feeds/tag?tagnames=sparql&sort=newest', sparql.url)
 
     def test_google_opml_import(self):
-        import_opml('google.opml')
+        self.import_opml('google.opml')
 
 
 @override_settings(READER=TEST_READER_SETTINGS)
-class SubscriptionsResourceTests(TestCase):
+class SubscriptionsResourceTests(StoreTestCase):
 
     def test_simple_resource_list(self):
-        import_opml('simple.opml')
-        client = Client()
+        self.import_opml('simple.opml')
+        client = self.default_login()
         response = client.get('/reader/subscriptions', HTTP_X_REQUESTED_WITH='XMLHttpRequest', Accept='application/json')
         self.assertEqual(200, response.status_code)
         data = json.loads(response.content)
         self.assertEqual(0, len(data['categories']))
         self.assertEqual(6, len(data['uncategorized']))
 
-    def test_simple_resource_add(self):
-        import_opml('simple.opml')
+    def test_login_required_to_list(self):
+        self.import_opml('simple.opml')
         client = Client()
+        response = client.get('/reader/subscriptions', HTTP_X_REQUESTED_WITH='XMLHttpRequest', Accept='application/json')
+        self.assertEqual(302, response.status_code)
+
+    def test_correct_login_required_to_list(self):
+        self.import_opml('simple.opml')
+        client = self.other_login()
+        response = client.get('/reader/subscriptions', HTTP_X_REQUESTED_WITH='XMLHttpRequest', Accept='application/json')
+        self.assertEqual(200, response.status_code)
+        data = json.loads(response.content)
+        self.assertEqual(0, len(data['categories']))
+        self.assertEqual(0, len(data['uncategorized']))
+
+    def test_simple_resource_add(self):
+        self.import_opml('simple.opml')
+        client = self.default_login()
+        home = client.get('/reader/')
+        csrf_token = unicode(home.context['csrf_token'])
         response = client.post('/reader/subscriptions',
-                    data='{"url":"http://techquila.com/tech/feed/"}',
-                    content_type="application/json",
+                    data={'url' : 'http://techquila.com/tech/feed/' },
                     HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                    X_CSRFToken=csrf_token,
                     Accept='application/json')
         self.assertEqual(200, response.status_code)
         data = json.loads(response.content)
@@ -181,29 +219,59 @@ class SubscriptionsResourceTests(TestCase):
         self.assertEqual('Techquila Tech', data[0]['fields']['title'])
         self.assertEqual('http://techquila.com/tech', data[0]['fields']['html_url'])
 
+    def test_login_required_to_add(self):
+        self.import_opml('simple.opml')
+        client = Client()
+        response = client.post('/reader/subscriptions',
+                    data={'url' : 'http://techquila.com/tech/feed/' },
+                    HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                    Accept='application/json')
+        self.assertEqual(302, response.status_code) # Expect redirect to login page
+
+    def test_csrf_required_to_add(self):
+        self.import_opml('simple.opml')
+        client = self.default_login(True)
+        response = client.post('/reader/subscriptions',
+                    data={'url' : 'http://techquila.com/tech/feed/' },
+                    HTTP_X_REQUESTED_WITH='XMLHttpRequest',
+                    Accept='application/json')
+        self.assertEqual(403, response.status_code)
 
 @override_settings(READER=TEST_READER_SETTINGS)
 class FeedResourceTests(StoreTestCase):
 
     def setUp(self):
+        StoreTestCase.setUp(self)
         self.store = FeedStore()
-        import_opml('simple.opml')
+        self.import_opml('simple.opml')
         for f in Feed.objects.all():
             self.store.ensure_feed_directory(str(f.id))
 
     def test_get_one(self):
          # setup
         self.populate_feed(self.store, "1", 1)
-        client = Client()
+        client = self.default_login()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
         data = json.loads(response.content)
         self.assertEqual(1, len(data))
         self.assertEqual('Test Entry', data[0]['title'])
 
+    def test_login_required(self):
+        self.populate_feed(self.store, "1", 1)
+        client = Client()
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(302, response.status_code)
+
+    def test_correct_login_required(self):
+        self.populate_feed(self.store, "1", 1)
+        client = self.other_login()
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(401, response.status_code)
+
     def test_get_many(self):
         self.populate_feed(self.store, "1", 10)
-        client = Client()
+        client = self.default_login()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
         data = json.loads(response.content)
@@ -211,7 +279,7 @@ class FeedResourceTests(StoreTestCase):
 
     def test_read_one(self):
         self.populate_feed(self.store, "1", 10)
-        client = Client()
+        client = self.default_login()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
         entries = json.loads(response.content)
@@ -225,9 +293,17 @@ class FeedResourceTests(StoreTestCase):
         entries = json.loads(response.content)
         self.assertEqual(9, len(entries))
 
+    def test_correct_login_required_to_update(self):
+        self.populate_feed(self.store, "1", 10)
+        client = self.other_login()
+        update = { 'read' : '12345' }
+        response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
+                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(401, response.status_code)
+
     def test_read_many(self):
         self.populate_feed(self.store, "1", 10)
-        client = Client()
+        client = self.default_login()
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
         entries = json.loads(response.content)

@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse, HttpResponseBadReque
 from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
-from django.views.decorators.gzip import gzip_page
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
 import json
 import time
@@ -13,13 +13,14 @@ import feedprocessor
 from storage import FeedStore
 
 @ensure_csrf_cookie
+@login_required
 def index(request):
     """
     Delivers the reader home page
     """
     return render(request, 'reader/index.html')
 
-
+@login_required
 def import_subscription(request):
     """
     Forms-based interface for OPML import
@@ -30,7 +31,7 @@ def import_subscription(request):
         if form.is_valid():
             uploaded_file = request.FILES['opml_file']
             try:
-                feedprocessor.import_opml(uploaded_file.read())
+                feedprocessor.import_opml(uploaded_file.read(), request.user)
                 return HttpResponseRedirect(reverse('reader:index'))
             except:
                 import_failed = True
@@ -40,15 +41,16 @@ def import_subscription(request):
 
 
 @require_http_methods(["GET", "POST"])
+@login_required
 def subscriptions(request):
     """
     AJAX interface for the list of subscriptions
     """
     if request.method == "GET":
         data = '{ "categories" : ' + \
-            serializers.serialize('json', Category.objects.select_related('feeds').all()) + \
+            serializers.serialize('json', Category.objects.select_related('feeds').filter(owner=request.user)) + \
             ', "uncategorized" : ' + \
-            serializers.serialize('json', Feed.objects.filter(categories__isnull=True)) + " }"
+            serializers.serialize('json', Feed.objects.filter(categories__isnull=True, owner=request.user)) + " }"
         return HttpResponse(data, mimetype="application/json")
     elif request.method == "POST":
         try:
@@ -56,7 +58,7 @@ def subscriptions(request):
         except KeyError:
             return HttpResponseBadRequest()
         try:
-            new_feed = Feed(url=url)
+            new_feed = Feed(url=url, owner=request.user)
             new_feed.save()
             feedprocessor.initialize(new_feed)
             new_feed = Feed.objects.get(pk=new_feed.pk) # reload feed after initialization
@@ -64,7 +66,7 @@ def subscriptions(request):
         except:
             return HttpResponseServerError()
 
-
+@login_required
 def feed(request, feed_id='0'):
     store = FeedStore()
     try:
@@ -72,6 +74,8 @@ def feed(request, feed_id='0'):
     except Feed.DoesNotExist:
         print "Cannot find the feed"
         return Http404
+    if not feed.owner_id == request.user.id:
+        return HttpResponse('Unauthorized', status=401)
     if request.method == "GET":
         skip = 0
         take = None
@@ -94,6 +98,7 @@ def feed(request, feed_id='0'):
         if 'read' in feed_update:
             for item in feed_update['read']:
                 store.mark_read(feed_id, item)
+        return HttpResponse('OK', status=200)
     elif request.method == "DELETE":
         feed.is_deleted = True
         feed.save()
@@ -101,9 +106,6 @@ def feed(request, feed_id='0'):
         #    for item_tag in feed_update['tag']:
         #        store.tag_item(item_tag['item'], item_tag['tag'])
         return HttpResponse()
-
-def is_valid_feed(deserialized_object):
-    return hasattr(deserialized_object, 'url')
 
 class TimeHandlingEncoder(json.JSONEncoder):
 
