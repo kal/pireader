@@ -3,8 +3,8 @@ from time import gmtime, mktime, strftime
 import cPickle
 import itertools
 import shutil
+import fileutils
 from django.conf import settings
-import sys
 
 class FeedStore:
 
@@ -96,6 +96,16 @@ class FeedStore:
         keep_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_keep_directory(feed_id))))
         unread_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_feed_directory(feed_id))))
         return { 'unread' : unread_files, 'keep' : keep_files }
+
+    def mark_all_read(self, feed_id):
+        feed_dir = self.__get_feed_directory(feed_id)
+        read_dir = os.path.join(feed_dir, 'read')
+        fileutils.move_files(feed_dir, read_dir)
+
+    def restore_all_items(self, feed_id):
+        feed_dir = self.__get_feed_directory(feed_id)
+        read_dir = os.path.join(feed_dir, 'read')
+        fileutils.move_files(read_dir, feed_dir)
 
     def __make_entry_filename(self, entry):
         z = gmtime(mktime(entry['published_parsed']))

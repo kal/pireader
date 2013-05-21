@@ -98,6 +98,13 @@ def feed(request, feed_id='0'):
         if 'read' in feed_update:
             for item in feed_update['read']:
                 store.mark_read(feed_id, item)
+        if 'read_all' in feed_update:
+            if feed_update['read_all'] < 0:
+                store.mark_all_read(feed_id)
+        if 'restore_all' in feed_update:
+            store.restore_all_items(feed_id)
+            entries = store.get_entries(feed_id)
+            return HttpResponse(json.dumps(entries, cls=TimeHandlingEncoder), mimetype='application/json')
         return HttpResponse('OK', status=200)
     elif request.method == "DELETE":
         feed.is_deleted = True

@@ -156,6 +156,33 @@ class FeedStoreTests(StoreTestCase):
         entries = fs.get_entries(feed_id)
         self.assertEqual(0, len(entries))
 
+    def test_read_all_and_restore(self):
+        fs = FeedStore()
+        f = self.create_feed('Feed 4', 'http://example.org/feed4/rss', 1)
+        feed_id = str(f.id)
+        fs.ensure_feed_directory(feed_id)
+        self.populate_feed(fs, feed_id, 10)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(10, len(entries))
+        # Restore when no items unread should make no difference
+        fs.restore_all_items(feed_id)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(10, len(entries))
+        # Read one item then restore them all
+        fs.mark_read(feed_id, entries[0]['ref'])
+        self.assertEqual(9, len(fs.get_entries(feed_id)))
+        fs.restore_all_items(feed_id)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(10, len(entries))
+        # Read all items
+        fs.mark_all_read(feed_id)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(0, len(entries))
+        # Restore all items
+        fs.restore_all_items(feed_id)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(10, len(entries))
+
 
 @override_settings(READER=TEST_READER_SETTINGS)
 class OpmlTests(StoreTestCase):
@@ -318,6 +345,36 @@ class FeedResourceTests(StoreTestCase):
         self.assertEqual(200, response.status_code)
         entries = json.loads(response.content)
         self.assertEqual(0, len(entries))
+
+    def test_read_all(self):
+        self.populate_feed(self.store, "1", 10)
+        client = self.default_login()
+        update = {'read_all' : -1}
+        response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
+                    HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        response = client.get('/reader/subscriptions/1')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(0, len(entries))
+
+    def test_restore_all(self):
+        self.populate_feed(self.store, "1", 10)
+        self.store.mark_all_read("1")
+        client = self.default_login()
+        entries = self.__get_entries(client, "1")
+        self.assertEqual(0, len(entries))
+        update = {'restore_all': 1}
+        response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
+                               HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        self.assertEqual(200, response.status_code)
+        entries = json.loads(response.content)
+        self.assertEqual(10, len(entries))
+
+    def __get_entries(self, client, feed_id = "1"):
+        response = client.get('/reader/subscriptions/' + feed_id)
+        self.assertEqual(200, response.status_code)
+        return json.loads(response.content)
 
 def clean_data():
     if os.path.exists(TEST_PATH):
