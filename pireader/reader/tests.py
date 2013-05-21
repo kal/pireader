@@ -311,7 +311,7 @@ class FeedResourceTests(StoreTestCase):
         self.assertEqual(200, response.status_code)
         entries = json.loads(response.content)
         self.assertEqual(10, len(entries))
-        update = { 'read' : [entries[0]['ref']] }
+        update = {'read': [entries[0]['ref']]}
         response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(200, response.status_code)
@@ -323,7 +323,7 @@ class FeedResourceTests(StoreTestCase):
     def test_correct_login_required_to_update(self):
         self.populate_feed(self.store, "1", 10)
         client = self.other_login()
-        update = { 'read' : '12345' }
+        update = {'read': '12345'}
         response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
         self.assertEqual(401, response.status_code)
@@ -335,7 +335,7 @@ class FeedResourceTests(StoreTestCase):
         self.assertEqual(200, response.status_code)
         entries = json.loads(response.content)
         self.assertEqual(10, len(entries))
-        update = { 'read' : [] }
+        update = {'read': []}
         for e in entries:
             update['read'].append(e['ref'])
         response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',

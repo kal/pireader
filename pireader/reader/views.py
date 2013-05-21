@@ -105,6 +105,11 @@ def feed(request, feed_id='0'):
             store.restore_all_items(feed_id)
             entries = store.get_entries(feed_id)
             return HttpResponse(json.dumps(entries, cls=TimeHandlingEncoder), mimetype='application/json')
+        if 'refresh' in feed_update:
+            feedprocessor.process_feed(feed_id)
+            entries = store.get_entries(feed_id)
+            return HttpResponse(json.dumps(entries, cls=TimeHandlingEncoder), mimetype='application/json')
+
         return HttpResponse('OK', status=200)
     elif request.method == "DELETE":
         feed.is_deleted = True

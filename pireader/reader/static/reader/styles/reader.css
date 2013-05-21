@@ -54,4 +54,5 @@
 }
 .current {
     border-left-color : cornflowerblue;
+    border-left-width : 2px;
 }

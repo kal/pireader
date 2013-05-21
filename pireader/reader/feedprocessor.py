@@ -110,6 +110,10 @@ def assert_category(category_tag, user):
         category.save()
         return category
 
+def process_feed(feed, store=None):
+    processor = FeedProcessorJob(store)
+    processor.process_feed(feed)
+
 
 def initialize(feed):
     processor = FeedProcessorJob()

@@ -2,20 +2,28 @@
 {% block title %}PiReader Home{% endblock %}
 {% block main %}
     <div id="actions">
-        <a class="link-button" href="{% url 'reader:import' %}">Import Subscriptions</a>
-        <a id="subscribe_button" href="#">Add Subscription</a>
+        <a class="link-button" href="{% url 'reader:import' %}">Import</a>
+        <a id="subscribe_button" href="#">Subscribe</a>
         <div id="subscribe_form" style="display:none">
             <label for="feed_url">Paste or type in a feed URL</label><br/>
             <input id="feed_url" type="text"/> <input id="add_button" type="submit" value="Add"/>
         </div>
+        <span id="feed_actions" style="display:none">
+            <a class="link-button" href="#" onclick="return true">Refresh</a>
+            <a class="link-button" href="#" onclick="PiReader.mark_all_read()">Mark All Read</a>
+        </span>
     </div>
     <div id="reader_main">
-    <div id="feeds">
-    </div>
-    <div id="items">
-        <h2 id="items_title"></h2>
-        <div id="items_content"></div>
-    </div>
+        <div id="feeds">
+        </div>
+        <div id="items">
+            <h2 id="items_title"></h2>
+            <div id="no_items" style="display: none">
+                <p>There are no unread items in this feed.</p>
+                <a class="link-button" onclick="PiReader.restore()">View All Items</a>
+            </div>
+            <div id="items_content"></div>
+        </div>
     </div>
 {% endblock %}
 {% block scripts %}
@@ -23,21 +31,44 @@
     $(function(){
         $.get('subscriptions', callback = function(data, textStatus, xhr){
             console.log("Subscriptions:", data);
-            load_subscription(data);
+            PiReader.load_subscription(data);
         });
         $("#subscribe_button").button().click(function(event){
             $("#subscribe_form").slideToggle();
             event.preventDefault();
         });
         $("#add_button").button().click(function(event){
-            validate_and_add_subscription($);
+            PiReader.validate_and_add_subscription();
         });
         $("a.link-button").button();
+
         var main = $('#reader_main');
+        var scrollTop, scrollBottom;
         $(window).resize(function(){
             main.height($(window).height()- main.offset().top);
+            scrollTop = $('#items').offset().top;
+            scrollBottom = scrollTop + $('#items').height();
         });
         $(window).resize();
+
+        $('#items').scroll( function (ev) {
+            console.log('Scroll event');
+            $('.item').each(function(ix, item) {
+                var i = $(item);
+                var itemTop = i.offset().top;
+                var itemHeight = i.height();
+                if (itemTop < scrollTop && (itemTop + itemHeight > scrollTop)){
+                    PiReader.set_current_item(i);
+                    return false;
+                }
+            });
+        });
+
+        $(window).keyup(function(event){
+            if (event.which == 32) {
+                PiReader.cmd_next_item();
+            }
+        });
     });
     </script>
 {% endblock %}
