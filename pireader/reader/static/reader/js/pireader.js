@@ -33,14 +33,9 @@ var PiReader = (function () {
     };
 
     /**
-     * Performs client-side validation of a feed subscription URL
-     * @param url - string. The URL to be validated
-     * @returns true if the client-side validation is successful, false otherwise.
+     * Renders the list of categories and feeds retrieved for a subscription
+     * @param subscription
      */
-    _private.validate_feed_url = function (url){
-        return true;
-    };
-
     my.load_subscription = function(subscription) {
         var feeds = $('#feeds').empty();
         var categoriesElem = $('<ul id="categories"></ul>').appendTo(feeds);
@@ -61,18 +56,12 @@ var PiReader = (function () {
         });
     };
 
-    _private.__append_feed_element = function(parent, feed){
-        console.log(feed);
-        if (!feed.is_deleted){
-            feed_link = $('<a href="#">' + feed.fields.title + '</a>').click(function(){
-                my.load_feed(feed.pk, feed.fields.title);
-            });
-            var total = feed.fields.keep_count + feed.fields.unread_count;
-            feed_count = $('<span class="count"/>').html('(' + total.toString() + ')');
-            $('<li/>').append(feed_link).append(feed_count).appendTo(parent);
-        }
-    };
-
+    /**
+     * Makes the specified feed the new selected feed and retrieves
+     * items from the server
+     * @param feed_id
+     * @param feed_title
+     */
     my.load_feed = function (feed_id, feed_title){
         console.log('Loading feed ' + feed_title);
         _private.reset(feed_id, feed_title);
@@ -83,6 +72,106 @@ var PiReader = (function () {
             _private.local_items = data;
             _private.refresh();
         })
+    };
+
+    /**
+     * Sends an update to the server requesting that all items on the current feed be marked as read
+     * On a success status from the server, the local cache of items is cleared and the display refreshed
+     */
+    my.mark_all_read = function(){
+        if (_private.current_feed_id > 0){
+            var subscriptionUri = './subscriptions/' + _private.current_feed_id;
+            var postData = {'read_all' : -1};
+            $.ajax({
+                url : subscriptionUri,
+                method : 'POST',
+                processData : false,
+                data : JSON.stringify(postData),
+                dataType : 'json',
+                statusCode : {
+                    200 : function(data, textStatus, jqXHR) {
+                        _private.local_items = [];
+                        _private.refresh();
+                        }
+                },
+                headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
+            });
+        }
+    };
+
+    /**
+     * Sends an update request to the server asking for all items previously marked as read
+     * to be returned to an unread status.
+     * On a success, the server will respond with the first page of unread items and this will
+     * be locally cached and the display updated
+     */
+    my.restore = function() {
+        if (_private.current_feed_id > 0){
+            var subscriptionUri = './subscriptions/' + _private.current_feed_id;
+            var postData = {'restore_all' : 1};
+            $.ajax({
+                url : subscriptionUri,
+                method : 'POST',
+                processData : false,
+                data : JSON.stringify(postData),
+                dataType : 'json',
+                success : function(data, textStatus, jqXHR) {
+                    _private.local_items = data;
+                    _private.refresh();
+                },
+                headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
+            });
+        }
+    };
+
+    /**
+     * Updates the view to render the specified item as current
+     * and then invokes _private.set_current_item to ensure that
+     * the previous item is marked as read.
+     * @param item
+     */
+    my.set_current_item = function(item) {
+        $('.current').removeClass('current');
+        item.addClass('current');
+        _private.set_current_item(item.data('ref'));
+    };
+
+    /**
+     * Handles the keyboard command to advance to the next unread item
+     * If there is no current item, then the first item in the list becomes
+     * the current item.
+     */
+    my.cmd_next_item = function() {
+        var cur = $('.current').first();
+        if (cur.length > 0) {
+            var nxt = cur.next('.item');
+            if (nxt.length > 0) {
+                my.set_current_item(nxt);
+            }
+        } else {
+            my.set_current_item($('.item').first());
+        }
+    };
+
+    /**
+     * Performs client-side validation of a feed subscription URL
+     * @param url - string. The URL to be validated
+     * @returns true if the client-side validation is successful, false otherwise.
+     */
+    _private.validate_feed_url = function (url){
+        return true;
+    };
+
+    _private.__append_feed_element = function(parent, feed){
+        console.log(feed);
+        if (!feed.is_deleted){
+            feed_link = $('<a href="#">' + feed.fields.title + '</a>').click(function(){
+                my.load_feed(feed.pk, feed.fields.title);
+            });
+            var total = feed.fields.keep_count + feed.fields.unread_count;
+            feed_count = $('<span class="count"/>').html('(' + total.toString() + ')');
+            $('<li/>').append(feed_link).append(feed_count).appendTo(parent);
+        }
     };
 
     _private.__render_item = function (item){
@@ -108,46 +197,6 @@ var PiReader = (function () {
         // Article content
         var item_body = $('<div/>').addClass('item-body').html(item.summary).appendTo(item_wrapper);
         return item_wrapper;
-    };
-
-    my.mark_all_read = function(){
-        if (_private.current_feed_id > 0){
-            var subscriptionUri = './subscriptions/' + _private.current_feed_id;
-            var postData = {'read_all' : -1};
-            $.ajax({
-                url : subscriptionUri,
-                method : 'POST',
-                processData : false,
-                data : JSON.stringify(postData),
-                dataType : 'json',
-                statusCode : {
-                    200 : function(data, textStatus, jqXHR) {
-                        _private.local_items = [];
-                        _private.refresh();
-                        }
-                },
-                headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
-            });
-        }
-    };
-
-    my.restore = function() {
-        if (_private.current_feed_id > 0){
-            var subscriptionUri = './subscriptions/' + _private.current_feed_id;
-            var postData = {'restore_all' : 1};
-            $.ajax({
-                url : subscriptionUri,
-                method : 'POST',
-                processData : false,
-                data : JSON.stringify(postData),
-                dataType : 'json',
-                success : function(data, textStatus, jqXHR) {
-                    _private.local_items = data;
-                    _private.refresh();
-                },
-                headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
-            });
-        }
     };
 
     _private.getCookie = function(name) {
@@ -186,12 +235,6 @@ var PiReader = (function () {
         _private.local_read = [];
     };
 
-    my.set_current_item = function(item) {
-        $('.current').removeClass('current');
-        item.addClass('current');
-        _private.set_current_item(item.data('ref'));
-    };
-
     _private.set_current_item = function(ref) {
         if (_private.current_item == ref) {
             return;
@@ -201,18 +244,6 @@ var PiReader = (function () {
             console.log(_private.local_read);
         }
     }
-
-    my.cmd_next_item = function(ref) {
-        var cur = $('.current').first();
-        if (cur.length > 0) {
-            var nxt = cur.next('.item');
-            if (nxt.length > 0) {
-                my.set_current_item(nxt);
-            }
-        } else {
-            my.set_current_item($('.item').first());
-        }
-    };
 
     return my;
 }());
