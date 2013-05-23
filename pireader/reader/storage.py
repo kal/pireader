@@ -27,13 +27,20 @@ class FeedStore:
         if not os.path.exists(entry_filename):
             self.__write_entry(entry, entry_filename)
 
-    def mark_read(self, feed_id, entry_name):
-        try:
-            feed_dir = self.__get_feed_directory(feed_id)
-            os.rename(os.path.join(feed_dir, entry_name), os.path.join(feed_dir, 'read', entry_name))
-        except:
-            # If the entry is gone, just continue
-            pass
+    def mark_read(self, feed_id, entry_ref_or_list):
+        feed_dir = self.__get_feed_directory(feed_id)
+        if isinstance(entry_ref_or_list, basestring):
+            try:
+                os.rename(os.path.join(feed_dir, entry_ref_or_list), os.path.join(feed_dir, 'read', entry_ref_or_list))
+            except:
+                pass # If the entry is gone, just continue
+        else:
+            for entry_ref in entry_ref_or_list:
+                try:
+                    os.rename(os.path.join(feed_dir, entry_ref), os.path.join(feed_dir, 'read', entry_ref))
+                except:
+                    pass # If the entry is gone, just contine
+        return fileutils.count_files(feed_dir)
 
     def get_feed_counts(self):
         feed_counts = {}

@@ -9,7 +9,8 @@ var PiReader = (function () {
         current_feed_id: -0,
         current_item : null,
         local_items : [],
-        local_read : []
+        local_read : [],
+        queued_notifications : {}
     };
 
     my.validate_and_add_subscription = function() {
@@ -170,7 +171,7 @@ var PiReader = (function () {
             });
             var total = feed.fields.keep_count + feed.fields.unread_count;
             feed_count = $('<span class="count"/>').html('(' + total.toString() + ')');
-            $('<li/>').append(feed_link).append(feed_count).appendTo(parent);
+            $('<li/>').attr('id', 'feed_' + feed.pk).append(feed_link).append(feed_count).appendTo(parent);
         }
     };
 
@@ -194,8 +195,16 @@ var PiReader = (function () {
             item_byline.html(item.author);
         }
         item_byline.appendTo(item_wrapper);
+
         // Article content
         var item_body = $('<div/>').addClass('item-body').html(item.summary).appendTo(item_wrapper);
+
+        // Article actions
+        var actions = $('<div/>').addClass('actions')
+            .append('<label>Keep Unread: </label>')
+            .append($('<input type="checkbox" />').val(item.hasOwnProperty('keep_unread') && item['keep_unread']))
+            .appendTo(item_wrapper);
+
         return item_wrapper;
     };
 
@@ -233,6 +242,7 @@ var PiReader = (function () {
         _private.feed_title = feed_title;
         _private.local_items = [];
         _private.local_read = [];
+        _private.queued_notifications[feed_id] = [];
     };
 
     _private.set_current_item = function(ref) {
@@ -241,9 +251,51 @@ var PiReader = (function () {
         }
         if (_private.local_read.indexOf(ref) < 0){
             _private.local_read.push(ref);
-            console.log(_private.local_read);
+            _private.queued_notifications[_private.current_feed_id].push(ref);
         }
-    }
+    };
+
+    _private.notifier = function() {
+        for (var k in _private.queued_notifications) {
+            if (_private.queued_notifications.hasOwnProperty(k)){
+            if (_private.queued_notifications[k].length > 0){
+                console.log("Sending read notification for feed " + k );
+                var subscriptionUri = "./subscriptions/" + k;
+                var read_items = _private.queued_notifications[k].slice(0);
+                var postData = {read : read_items };
+                $.ajax({
+                    url : subscriptionUri,
+                    method : 'POST',
+                    processData : false,
+                    data : JSON.stringify(postData),
+                    dataType : 'json',
+                    statusCode : {
+                        200 : function(data, textStatus, jqXHR) {
+                            read_items.map(function(item) {
+                                var ix = _private.queued_notifications[k].indexOf(item);
+                                if (ix >= 0){
+                                    _private.queued_notifications[k].splice(ix, 1);
+                                }
+                            });
+                            if (data.hasOwnProperty('unread_count')){
+                                _private.update_feed_count(k, data['unread_count']);
+                            }
+                        }
+                    },
+                    headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
+                });
+                break;
+            }
+            }
+        }
+        setTimeout(_private.notifier, 10000);
+    };
+
+    _private.update_feed_count = function (feed_id, count){
+        $('#feed_' + feed_id + ' > .count').html('(' + count.toString() + ')');
+    };
+
+    _private.notifier();
 
     return my;
 }());

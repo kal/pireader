@@ -32,26 +32,37 @@
 .item {
     margin: 12px 0px;
     border: 1px grey solid;
-    padding : 12px;
 }
 
 .item h3 {
-    margin:0;
+    margin:12px;
 }
 
 .item .byline {
     font-size: small;
     font-weight: lighter;
+    margin: 3px 12px;
 }
 
 .item .dateline {
     float: right;
     font-size: small;
+    margin: 12px;
 }
 
 .item .item-body {
-    margin-top : 1em;
+    margin : 1em 12px;
 }
+
+.item .actions {
+    background: #d3d3d3;
+    padding: 3px;
+}
+
+.item .actions input {
+    vertical-align: middle;
+}
+
 .current {
     border-left-color : cornflowerblue;
     border-left-width : 2px;

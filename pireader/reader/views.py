@@ -89,6 +89,7 @@ def feed(request, feed_id='0'):
         data = request.read()
         feed_update = json.loads(data)
         store = FeedStore()
+        responseData = {}
         if 'keep' in feed_update:
             for item in feed_update['keep']:
                 store.keep(feed_id, item)
@@ -96,8 +97,9 @@ def feed(request, feed_id='0'):
             for item in feed_update['unkeep']:
                 store.unkeep(feed_id, item)
         if 'read' in feed_update:
-            for item in feed_update['read']:
-                store.mark_read(feed_id, item)
+            feed.unread_count = store.mark_read(feed_id, feed_update['read'])
+            feed.save()
+            responseData['unread_count'] = feed.unread_count
         if 'read_all' in feed_update:
             if feed_update['read_all'] < 0:
                 store.mark_all_read(feed_id)
@@ -109,8 +111,7 @@ def feed(request, feed_id='0'):
             feedprocessor.process_feed(feed_id)
             entries = store.get_entries(feed_id)
             return HttpResponse(json.dumps(entries, cls=TimeHandlingEncoder), mimetype='application/json')
-
-        return HttpResponse('OK', status=200)
+        return HttpResponse(json.dumps(responseData))
     elif request.method == "DELETE":
         feed.is_deleted = True
         feed.save()

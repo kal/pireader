@@ -131,7 +131,8 @@ class FeedStoreTests(StoreTestCase):
         counts_before = fs.get_feed_counts()
         self.assertEqual(1, counts_before[feed_id])
         entry = fs.get_entries(feed_id)[0]
-        fs.mark_read(feed_id, entry['ref'])
+        remaining_item_count = fs.mark_read(feed_id, entry['ref'])
+        self.assertEqual(0, remaining_item_count)
         counts_after = fs.get_feed_counts()
         self.assertEqual(0, counts_after[feed_id])
         self.assertTrue(os.path.exists(os.path.join(TEST_PATH, "feeds", feed_id, 'read', entry['ref'])))
@@ -182,6 +183,17 @@ class FeedStoreTests(StoreTestCase):
         fs.restore_all_items(feed_id)
         entries = fs.get_entries(feed_id)
         self.assertEqual(10, len(entries))
+
+    def test_read_many(self):
+        fs = FeedStore()
+        f = self.create_feed('Feed 5', 'http://example.org/feed4/rss', 1)
+        feed_id = str(f.id)
+        fs.ensure_feed_directory(feed_id)
+        self.populate_feed(fs, feed_id, 10)
+        entries = fs.get_entries(feed_id)
+        self.assertEqual(10, len(entries))
+        remaining_count = fs.mark_read(feed_id, (e['ref'] for e in entries[0:3]))
+        self.assertEqual(7, remaining_count)
 
 
 @override_settings(READER=TEST_READER_SETTINGS)
@@ -340,6 +352,8 @@ class FeedResourceTests(StoreTestCase):
             update['read'].append(e['ref'])
         response = client.post('/reader/subscriptions/1', json.dumps(update), 'application/json',
                                HTTP_X_REQUESTED_WITH='XMLHttpRequest')
+        responseData = json.loads(response.content)
+        self.assertEqual(0, responseData['unread_count'])
         self.assertEqual(200, response.status_code)
         response = client.get('/reader/subscriptions/1')
         self.assertEqual(200, response.status_code)
