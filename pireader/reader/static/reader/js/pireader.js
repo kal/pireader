@@ -4,14 +4,120 @@
  */
 var PiReader = (function () {
 
+    var FeedUpdates = (function(feed_id) {
+        var my = {};
+        var is_dirty = false;
+        var operations = {
+            read : [],
+            keep : [],
+            unkeep : []
+        };
+        var stashed = {
+            read : [],
+            keep : [],
+            unkeep : []
+        };
+
+        my.isDirty = function() {
+            return is_dirty;
+        };
+
+        my.mark_read = function(ref) {
+            if (operations.keep.indexOf(ref) >= 0) {
+                // Item is in our keep list
+                return;
+            }
+            if (operations.read.indexOf(ref) < 0){
+                operations.read.push(ref);
+                is_dirty = true;
+            }
+        };
+
+        my.keep = function(ref) {
+            var ix = operations.read.indexOf(ref);
+            if (ix >= 0) {
+                operations.read.splice(ix, 1);
+            }
+            if (operations.keep.indexOf(ref) < 0){
+                operations.keep.push(ref);
+                is_dirty = true;
+            }
+        };
+
+        my.unkeep = function(ref) {
+            if (operations.unkeep.indexOf(ref) < 0){
+                operations.unkeep.push(ref);
+                is_dirty = true;
+            }
+        };
+
+        my.stash = function() {
+            if (stashed.read.length + stashed.keep.length + stashed.unkeep.length > 0){
+                throw "Stash not empty"
+            }
+            stashed.read = operations.read.slice(0);
+            stashed.keep = operations.keep.slice(0);
+            stashed.unkeep = operations.unkeep.slice(0);
+            operations.read = [];
+            operations.keep = [];
+            operations.unkeep = [];
+            return stashed;
+        };
+
+        my.completed = function(){
+            my.__clear_stash();
+            is_dirty = (operations.read.length + operations.keep.length + operations.unkeep.length > 0);
+        };
+
+        my.unstash = function() {
+            my.__merge(stashed.read, operations.read);
+            my.__merge(stashed.keep, operations.keep);
+            my.__merge(stashed.unkeep, operations.unkeep);
+            my.__clear_stash();
+            is_dirty = true;
+        };
+
+        my.__clear_stash = function() {
+            stashed.read = [];
+            stashed.keep = [];
+            stashed.unkeep = [];
+        };
+
+        // Merges items in from into to, avoiding duplicates
+        my.__merge = function(from, to){
+            // Simple case: if from is empty there is nothing to do
+            if (from.length == 0){
+                return;
+            }
+            // Simple case: if to is empty, then make it a copy of from
+            if (to.length == 0){
+                to = from.slice(0);
+            }
+            for(var i = 0; i < from.length; i++){
+                if (to.indexOf(from[i]) < 0) {
+                    to.push(from[i]);
+                }
+            }
+        };
+
+        my.clear_stash = function() {
+            stashed.read = [];
+            stashed.keep = [];
+            stashed.unkeep = [];
+        };
+
+        return my;
+    });
+
     var my = {};
     var _private = {
         current_feed_id: -0,
         current_item : null,
         local_items : [],
         local_read : [],
-        queued_notifications : {}
+        feed_updates : {}
     };
+
 
     my.validate_and_add_subscription = function() {
         var url = $("#feed_url").val();
@@ -46,7 +152,8 @@ var PiReader = (function () {
                 var categoryElem = $('<li><div>' + category.fields.tag + '</div></li>');
                 var categoryFeedsElem = $('<ul></ul>');
                 $.each(category.feeds, function(ix, feed){
-                   _private.__append_feed_element(categoryFeedsElem, feed);
+                    _private.__append_feed_element(categoryFeedsElem, feed);
+                    _private.register_feed(feed);
                 });
                 categoryElem.append(categoryFeedsElem).appendTo(categoryElem);
             });
@@ -54,7 +161,13 @@ var PiReader = (function () {
         }
         $.each(subscription.uncategorized, function(ix, feed){
             _private.__append_feed_element(uncategorizedElem, feed);
+            _private.register_feed(feed);
         });
+    };
+
+    _private.register_feed = function(feed){
+        var feed_id = feed.pk.toString();
+        _private.feed_updates[feed_id] = FeedUpdates(feed_id);
     };
 
     /**
@@ -242,53 +355,52 @@ var PiReader = (function () {
         _private.feed_title = feed_title;
         _private.local_items = [];
         _private.local_read = [];
-        _private.queued_notifications[feed_id] = [];
     };
 
     _private.set_current_item = function(ref) {
         if (_private.current_item == ref) {
             return;
         }
-        if (_private.local_read.indexOf(ref) < 0){
+        if (_private.local_read.indexOf(ref) < 0) {
             _private.local_read.push(ref);
-            _private.queued_notifications[_private.current_feed_id].push(ref);
+            _private.feed_updates[_private.current_feed_id].mark_read(ref);
         }
     };
 
     _private.notifier = function() {
-        for (var k in _private.queued_notifications) {
-            if (_private.queued_notifications.hasOwnProperty(k)){
-            if (_private.queued_notifications[k].length > 0){
+        var notificationInProgress = false;
+        for (var k in _private.feed_updates) {
+            if (_private.feed_updates.hasOwnProperty(k) && _private.feed_updates[k].isDirty()){
                 console.log("Sending read notification for feed " + k );
                 var subscriptionUri = "./subscriptions/" + k;
-                var read_items = _private.queued_notifications[k].slice(0);
-                var postData = {read : read_items };
+                var postData =  _private.feed_updates[k].stash();
                 $.ajax({
                     url : subscriptionUri,
                     method : 'POST',
                     processData : false,
                     data : JSON.stringify(postData),
                     dataType : 'json',
-                    statusCode : {
-                        200 : function(data, textStatus, jqXHR) {
-                            read_items.map(function(item) {
-                                var ix = _private.queued_notifications[k].indexOf(item);
-                                if (ix >= 0){
-                                    _private.queued_notifications[k].splice(ix, 1);
-                                }
-                            });
-                            if (data.hasOwnProperty('unread_count')){
-                                _private.update_feed_count(k, data['unread_count']);
-                            }
+                    success : function(data, textStatus, jqXHR) {
+                        _private.feed_updates[k].completed();
+                        if (data.hasOwnProperty('unread_count')){
+                            _private.update_feed_count(k, data['unread_count']);
                         }
+                    },
+                    error : function() {
+                        _private.feed_updates[k].unstash();
+                    },
+                    complete: function() {
+                        notificationInProgress = true;
+                        setTimeout(_private.notifier, 1000);
                     },
                     headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
                 });
                 break;
             }
-            }
         }
-        setTimeout(_private.notifier, 10000);
+        if (!notificationInProgress) {
+            setTimeout(_private.notifier, 3000);
+        }
     };
 
     _private.update_feed_count = function (feed_id, count){
