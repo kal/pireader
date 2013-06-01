@@ -148,7 +148,7 @@ var PiReader = (function () {
         var categoriesElem = $('<ul id="categories"></ul>').appendTo(feeds);
         var uncategorizedElem = $('<ul id="uncategorized"></ul>').appendTo(feeds);
         if (subscription.categories.length > 0) {
-            $.each(subscription.categories, function(category){
+            $.each(subscription.categories, function(ix, category){
                 var categoryElem = $('<li><div>' + category.fields.tag + '</div></li>');
                 var categoryFeedsElem = $('<ul></ul>');
                 $.each(category.feeds, function(ix, feed){
