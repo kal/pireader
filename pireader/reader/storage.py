@@ -63,8 +63,10 @@ class FeedStore:
         return list(map(self.__read_entry, itertools.islice(itertools.chain(keeps,  entries), skip, take)))
 
     def __write_entry(self, entry, path):
+        old_mask = os.umask(002)
         with open(path, 'w') as entry_file:
             cPickle.dump(entry, entry_file)
+        os.umask(old_mask)
 
     def __read_entry(self, path):
         with open(path, 'r') as entry_file:
@@ -137,7 +139,9 @@ class FeedStore:
 
     def __ensure_directory(self, directory_path):
         if not os.path.exists(directory_path):
+            old_mask = os.umask(002)
             os.makedirs(directory_path)
+            os.umask(old_mask)
 
 class StorageError(Exception):
     """Base class for storage errors"""
