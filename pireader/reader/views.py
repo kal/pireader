@@ -48,7 +48,8 @@ def subscriptions(request):
     """
     if request.method == "GET":
         data = '{ "categories" : ' + \
-            serializers.serialize('json', Category.objects.select_related('feeds').filter(owner=request.user)) + \
+            serializers.serialize('json', Category.objects.select_related('feeds').filter(owner=request.user),
+                                  relations='feeds') + \
             ', "uncategorized" : ' + \
             serializers.serialize('json', Feed.objects.filter(categories__isnull=True, owner=request.user)) + " }"
         return HttpResponse(data, mimetype="application/json")

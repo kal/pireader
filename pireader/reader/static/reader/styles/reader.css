@@ -11,13 +11,15 @@
 
 #feeds ul {
     list-style: none;
+    margin: 0;
     padding : 0;
     border : 0;
 }
 
 #feeds li {
-    padding-bottom : 0.5em;
+    padding-top : 0.25em;
 }
+
 #feeds .count {
     margin-left: 0.5em;
 }
@@ -66,4 +68,46 @@
 .current {
     border-left-color : cornflowerblue;
     border-left-width : 2px;
+}
+
+.folder-name {
+    border-top : 1px #ccc solid;
+    background-color: #eee;
+    padding : 3px;
+}
+
+#feeds {
+    border-top : 1px solid rgba(0,0,0,0.4);
+}
+
+#feeds a {
+    color : black;
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    font-family: arial, sans-serif;
+}
+
+.name-text {
+    display : inline-block;
+    overflow : hidden;
+    text-overflow: ellipsis;
+    white-space : nowrap;
+    max-width: 8em;
+}
+
+.count {
+    color : #666;
+    font-size: 85%;
+    display : inline-block;
+    vertical-align: top;
+}
+
+.folder : first-child {
+    padding-top: 0;
+}
+
+.folder li {
+    margin-left : 1em;
 }

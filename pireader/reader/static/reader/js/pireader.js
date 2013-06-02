@@ -149,15 +149,14 @@ var PiReader = (function () {
         var uncategorizedElem = $('<ul id="uncategorized"></ul>').appendTo(feeds);
         if (subscription.categories.length > 0) {
             $.each(subscription.categories, function(ix, category){
-                var categoryElem = $('<li><div>' + category.fields.tag + '</div></li>');
+                var categoryElem = $('<li class="folder"><div class="folder-name">' + category.fields.tag + '</div></li>');
                 var categoryFeedsElem = $('<ul></ul>');
-                $.each(category.feeds, function(ix, feed){
+                $.each(category.fields.feeds, function(ix, feed){
                     _private.__append_feed_element(categoryFeedsElem, feed);
                     _private.register_feed(feed);
                 });
-                categoryElem.append(categoryFeedsElem).appendTo(categoryElem);
+                categoryElem.append(categoryFeedsElem).appendTo(categoriesElem);
             });
-            feeds.append()
         }
         $.each(subscription.uncategorized, function(ix, feed){
             _private.__append_feed_element(uncategorizedElem, feed);
@@ -279,12 +278,12 @@ var PiReader = (function () {
     _private.__append_feed_element = function(parent, feed){
         console.log(feed);
         if (!feed.is_deleted){
-            feed_link = $('<a href="#">' + feed.fields.title + '</a>').click(function(){
+            feed_link = $('<a href="#"><div class="name-text">' + feed.fields.title + '</div></a>').click(function(){
                 my.load_feed(feed.pk, feed.fields.title);
             });
             var total = feed.fields.keep_count + feed.fields.unread_count;
-            feed_count = $('<span class="count"/>').html('(' + total.toString() + ')');
-            $('<li/>').attr('id', 'feed_' + feed.pk).append(feed_link).append(feed_count).appendTo(parent);
+            $('<div class="count"/>').html('(' + total.toString() + ')').appendTo(feed_link);
+            $('<li/>').attr('id', 'feed_' + feed.pk).append(feed_link).appendTo(parent);
         }
     };
 
