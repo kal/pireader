@@ -123,8 +123,13 @@ class FeedStore:
             fileutils.move_files(read_dir, feed_dir)
 
     def __make_entry_filename(self, entry):
-        z = gmtime(mktime(entry['published_parsed']))
-        ts =  strftime('%Y%m%dT%H%M%SZ', z)
+        if 'published_parsed' in entry:
+            z = gmtime(mktime(entry['published_parsed']))
+        elif 'updated_parsed' in entry:
+            z = gmtime(mktime(entry['updated_parsed']))
+        else:
+            z = gmtime()
+        ts = strftime('%Y%m%dT%H%M%SZ', z)
         entry_id = self.__normalize_id(entry['guid'])
         return ts + '_' + entry_id
 

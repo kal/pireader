@@ -276,6 +276,19 @@ class SubscriptionsResourceTests(StoreTestCase):
                     Accept='application/json')
         self.assertEqual(403, response.status_code)
 
+
+@override_settings(READER=TEST_READER_SETTINGS)
+class FeedParserTests(StoreTestCase):
+    def setUp(self):
+        StoreTestCase.setUp(self)
+        self.store = FeedStore()
+
+    def test_axecop_feed(self):
+        axecop = self.create_feed("AxeCop", "http://axecop.com/index.php/achome/rss_2.0/")
+        feedprocessor.process_feed(axecop, self.store)
+        self.assertGreater(0, self.store.get_counts(str(axecop.id)))
+
+
 @override_settings(READER=TEST_READER_SETTINGS)
 class FeedResourceTests(StoreTestCase):
 

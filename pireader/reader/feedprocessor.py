@@ -7,7 +7,7 @@ import sys
 import feedparser
 from django.utils import timezone
 from storage import FeedStore
-import os.path
+import traceback
 import opml
 
 class FeedProcessorJob(CronJobBase):
@@ -61,7 +61,7 @@ class FeedProcessorJob(CronJobBase):
             self.__store.add_entry(feed_id, entry)
         except:
             print "Failed to process entry {0}. Cause {1}".format(entry, sys.exc_info()[0])
-
+            traceback.print_exc()
 
 class NoFeedsFound(Exception):
     pass
