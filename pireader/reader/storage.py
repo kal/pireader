@@ -128,7 +128,7 @@ class FeedStore:
         elif 'updated_parsed' in entry:
             z = gmtime(mktime(entry['updated_parsed']))
         else:
-            z = gmtime()
+            z = gmtime(0)
         ts = strftime('%Y%m%dT%H%M%SZ', z)
         entry_id = self.__normalize_id(entry['guid'])
         return ts + '_' + entry_id
