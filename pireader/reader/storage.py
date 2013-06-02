@@ -105,10 +105,10 @@ class FeedStore:
     def get_counts(self, feed_id):
         feed_dir = self.__get_feed_directory(feed_id)
         if not os.path.exists(feed_dir):
-            return {'unread' : 0, 'keep' : 0};
-        keep_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_keep_directory(feed_id))))
-        unread_files = len(filter(lambda x : os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_feed_directory(feed_id))))
-        return { 'unread' : unread_files, 'keep' : keep_files }
+            return {'unread': 0, 'keep': 0}
+        keep_files = len(filter(lambda x: os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_keep_directory(feed_id))))
+        unread_files = len(filter(lambda x: os.path.isfile(os.path.join(feed_dir, x)), os.listdir(self.__get_feed_directory(feed_id))))
+        return {'unread': unread_files, 'keep': keep_files }
 
     def mark_all_read(self, feed_id):
         feed_dir = self.__get_feed_directory(feed_id)
@@ -130,7 +130,10 @@ class FeedStore:
         else:
             z = gmtime(0)
         ts = strftime('%Y%m%dT%H%M%SZ', z)
-        entry_id = self.__normalize_id(entry['guid'])
+        if 'guid' in entry:
+            entry_id = self.__normalize_id(entry['guid'])
+        else:
+            entry_id = self.__normalize_id(entry['link'])
         return ts + '_' + entry_id
 
     def __normalize_id(self, to_normalize):
