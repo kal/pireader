@@ -9,7 +9,7 @@
             <input id="feed_url" type="text"/> <input id="add_button" type="submit" value="Add"/>
         </div>
         <span id="feed_actions" style="display:none">
-            <a class="link-button" href="#" onclick="return true">Refresh</a>
+            <a class="link-button" href="#" onclick="PiReader.refresh()">Refresh</a>
             <a class="link-button" href="#" onclick="PiReader.mark_all_read()">Mark All Read</a>
         </span>
     </div>
@@ -18,11 +18,8 @@
         </div>
         <div id="items">
             <h2 id="items_title"></h2>
-            <div id="no_items" style="display: none">
-                <p>There are no unread items in this feed.</p>
-                <a class="link-button" onclick="PiReader.restore()">View All Items</a>
-            </div>
-            <div id="items_content"></div>
+            <div id="items_loading"></div>
+            <div id="feed"></div>
         </div>
     </div>
 {% endblock %}
@@ -51,24 +48,8 @@
         });
         $(window).resize();
 
-        $('#items').scroll( function (ev) {
-            console.log('Scroll event');
-            $('.item').each(function(ix, item) {
-                var i = $(item);
-                var itemTop = i.offset().top;
-                var itemHeight = i.height();
-                if (itemTop < scrollTop && (itemTop + itemHeight > scrollTop)){
-                    PiReader.set_current_item(i);
-                    return false;
-                }
-            });
-        });
-
-        $(window).keyup(function(event){
-            if (event.which == 32) {
-                PiReader.cmd_next_item();
-            }
-        });
+        var displayWidget = $('#feed').singleItemFeedWidget();
+        PiReader.init(displayWidget);
     });
     </script>
 {% endblock %}

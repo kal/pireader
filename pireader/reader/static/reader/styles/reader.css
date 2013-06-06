@@ -27,13 +27,18 @@
 #items {
     margin-left : 212px;
     padding-right:12px;
-    overflow-y : auto;
+    overflow-y : hidden;
+    height: 100%;
+}
+
+#items_scroll {
     height: 100%;
 }
 
 .item {
-    margin: 12px 0px;
+    margin: 12px 0px 0px;
     border: 1px grey solid;
+    position:relative;
 }
 
 .item h3 {
@@ -54,6 +59,7 @@
 
 .item .item-body {
     margin : 1em 12px;
+    margin-bottom : 40px;
 }
 
 .item .actions {
@@ -110,4 +116,41 @@
 
 .folder li {
     margin-left : 1em;
+}
+
+.unread-items {
+    font-weight: bold;
+}
+
+.items {
+    height: 100%;
+}
+
+.fw-itempane {
+    position : relative;
+    height:100%;
+    overflow-y: hidden;
+}
+
+.fw-content {
+    position: absolute;
+    bottom: 48px;
+    top: 0px;
+    height: auto;
+    left: 0px;
+    right: 0px;
+    overflow: auto;
+    padding-left : 12px;
+    padding-right: 3px;
+}
+
+.fw-actions {
+    position: absolute;
+    bottom: 0px;
+    height: 30px;
+    left: 0px;
+    right: 0px;
+    width : auto;
+    background-color: #d3d3d3;
+    padding: 3px;
 }

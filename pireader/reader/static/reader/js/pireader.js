@@ -4,18 +4,16 @@
  */
 var PiReader = (function () {
 
-    var FeedUpdates = (function(feed_id) {
-        var my = {};
+    var FeedUpdates = (function(feed_id, read, keep, unkeep) {
+        var my = {
+            feed_id: feed_id
+        };
+
         var is_dirty = false;
         var operations = {
-            read : [],
-            keep : [],
-            unkeep : []
-        };
-        var stashed = {
-            read : [],
-            keep : [],
-            unkeep : []
+            read : read || [],
+            keep : keep || [],
+            unkeep : unkeep || []
         };
 
         my.isDirty = function() {
@@ -51,36 +49,29 @@ var PiReader = (function () {
             }
         };
 
-        my.stash = function() {
-            if (stashed.read.length + stashed.keep.length + stashed.unkeep.length > 0){
-                throw "Stash not empty"
+        my.clone = function() {
+            return  {
+                read : operations.read.slice(),
+                keep : operations.keep.slice(),
+                unkeep : operations.unkeep.slice()
+            };
+        };
+
+        my.completed = function(completed){
+            my.__removeAll(completed.read, operations.read);
+            my.__removeAll(completed.keep, operations.keep);
+            my.__removeAll(completed.unkeep, operations.unkeep);
+            is_dirty = ((operations.read.length + operations.keep.length + operations.unkeep.length) > 0);
+        };
+
+        my.__removeAll = function(items, from){
+            if (items.length == 0 || from.length == 0) return;
+            for(var i = 0; i < items.length; i++){
+                var ix = from.indexOf(items[i]);
+                if (ix >= 0){
+                    from.splice(ix, 1);
+                }
             }
-            stashed.read = operations.read.slice(0);
-            stashed.keep = operations.keep.slice(0);
-            stashed.unkeep = operations.unkeep.slice(0);
-            operations.read = [];
-            operations.keep = [];
-            operations.unkeep = [];
-            return stashed;
-        };
-
-        my.completed = function(){
-            my.__clear_stash();
-            is_dirty = (operations.read.length + operations.keep.length + operations.unkeep.length > 0);
-        };
-
-        my.unstash = function() {
-            my.__merge(stashed.read, operations.read);
-            my.__merge(stashed.keep, operations.keep);
-            my.__merge(stashed.unkeep, operations.unkeep);
-            my.__clear_stash();
-            is_dirty = true;
-        };
-
-        my.__clear_stash = function() {
-            stashed.read = [];
-            stashed.keep = [];
-            stashed.unkeep = [];
         };
 
         // Merges items in from into to, avoiding duplicates
@@ -100,17 +91,14 @@ var PiReader = (function () {
             }
         };
 
-        my.clear_stash = function() {
-            stashed.read = [];
-            stashed.keep = [];
-            stashed.unkeep = [];
-        };
-
         return my;
     });
 
-    var my = {};
+    var my = {
+    };
+
     var _private = {
+        last_notified : 0,
         current_feed_id: -0,
         current_item : null,
         local_items : [],
@@ -164,11 +152,6 @@ var PiReader = (function () {
         });
     };
 
-    _private.register_feed = function(feed){
-        var feed_id = feed.pk.toString();
-        _private.feed_updates[feed_id] = FeedUpdates(feed_id);
-    };
-
     /**
      * Makes the specified feed the new selected feed and retrieves
      * items from the server
@@ -180,11 +163,19 @@ var PiReader = (function () {
         _private.reset(feed_id, feed_title);
         $('#feed_actions').show();
         $('#items_title').html(feed_title);
-        $('#items_content').empty().html('Loading feed items...');
+        $('#items_loading').show();
         $.get('subscriptions/' + feed_id, callback = function(data, textStatus, xhr){
-            _private.local_items = data;
-            _private.refresh();
+            $('#items_loading').hide();
+            my._refresh_feed_widget(data, 0);
         })
+    };
+
+    my.refresh = function(){
+        $('#items_loading').show();
+        $.get('subscriptions/' + _private.current_feed_id, callback = function(data, textStatus, xhr){
+            $('#items_loading').hide();
+            my._refresh_feed_widget(data, 0);
+        });
     };
 
     /**
@@ -193,6 +184,7 @@ var PiReader = (function () {
      */
     my.mark_all_read = function(){
         if (_private.current_feed_id > 0){
+            var feed_id = _private.current_feed_id;
             var subscriptionUri = './subscriptions/' + _private.current_feed_id;
             var postData = {'read_all' : -1};
             $.ajax({
@@ -203,9 +195,9 @@ var PiReader = (function () {
                 dataType : 'json',
                 statusCode : {
                     200 : function(data, textStatus, jqXHR) {
-                        _private.local_items = [];
-                        _private.refresh();
-                        }
+                        my._refresh_feed_widget([], 0);
+                        _private.update_feed_count(feed_id, 0);
+                    }
                 },
                 headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
             });
@@ -220,7 +212,8 @@ var PiReader = (function () {
      */
     my.restore = function() {
         if (_private.current_feed_id > 0){
-            var subscriptionUri = './subscriptions/' + _private.current_feed_id;
+            var feed_id = _private.current_feed_id;
+            var subscriptionUri = './subscriptions/' + feed_id;
             var postData = {'restore_all' : 1};
             $.ajax({
                 url : subscriptionUri,
@@ -229,68 +222,21 @@ var PiReader = (function () {
                 data : JSON.stringify(postData),
                 dataType : 'json',
                 success : function(data, textStatus, jqXHR) {
-                    _private.local_items = data;
-                    _private.refresh();
+                    my._refresh_feed_widget(data, 0);
+                    _private.update_feed_count(feed_id, data.length);
                 },
                 headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
             });
         }
     };
 
-    /**
-     * Updates the view to render the specified item as current
-     * and then invokes _private.set_current_item to ensure that
-     * the previous item is marked as read.
-     * @param item
-     */
-    my.set_current_item = function(item) {
-        $('.current').removeClass('current');
-        item.addClass('current');
-        _private.set_current_item(item.data('ref'));
-    };
-
-    /**
-     * Handles the keyboard command to advance to the next unread item
-     * If there is no current item, then the first item in the list becomes
-     * the current item.
-     */
-    my.cmd_next_item = function() {
-        var cur = $('.current').first();
-        if (cur.length > 0) {
-            var nxt = cur.next('.item');
-            if (nxt.length > 0) {
-                my.set_current_item(nxt);
-            }
-        } else {
-            my.set_current_item($('.item').first());
-        }
-    };
-
-    /**
-     * Performs client-side validation of a feed subscription URL
-     * @param url - string. The URL to be validated
-     * @returns true if the client-side validation is successful, false otherwise.
-     */
-    _private.validate_feed_url = function (url){
-        return true;
-    };
-
-    _private.__append_feed_element = function(parent, feed){
-        console.log(feed);
-        if (!feed.is_deleted){
-            feed_link = $('<a href="#"><div class="name-text">' + feed.fields.title + '</div></a>').click(function(){
-                my.load_feed(feed.pk, feed.fields.title);
-            });
-            var total = feed.fields.keep_count + feed.fields.unread_count;
-            $('<div class="count"/>').html('(' + total.toString() + ')').appendTo(feed_link);
-            $('<li/>').attr('id', 'feed_' + feed.pk).append(feed_link).appendTo(parent);
-        }
-    };
-
-    _private.__render_item = function (item){
+    my.render_item = function (item){
         var item_wrapper = $('<div></div>')
-            .addClass('item').
-            data('ref', item['ref']);
+            .addClass('item')
+            .data('ref', item['ref'])
+            .click(function(){
+                my.set_current_item(item_wrapper);
+            });
         // Date line
         var item_dateline = $('<div/>').addClass('dateline').appendTo(item_wrapper);
         try {
@@ -320,6 +266,27 @@ var PiReader = (function () {
         return item_wrapper;
     };
 
+    my._refresh_feed_widget = function(data, currentIx) {
+        data = data || [];
+        currentIx = currentIx || 0;
+        my.feedWidget.singleItemFeedWidget("option", {items:data, currentIx:currentIx});
+    };
+
+    _private.__append_feed_element = function(parent, feed){
+        console.log(feed);
+        if (!feed.is_deleted){
+            feed_link = $('<a href="#"><div class="name-text">' + feed.fields.title + '</div></a>').click(function(){
+                my.load_feed(feed.pk, feed.fields.title);
+            });
+            var total = feed.fields.keep_count + feed.fields.unread_count;
+            $('<div class="count"/>').html('(' + total.toString() + ')').appendTo(feed_link);
+            var feed_element = $('<li/>').attr('id', 'feed_' + feed.pk).addClass('feed').append(feed_link).appendTo(parent);
+            if (feed.fields.unread_count > 0) {
+                feed_element.addClass('unread-items');
+            }
+        }
+    };
+
     _private.getCookie = function(name) {
         var cookieValue = null;
         if (document.cookie && document.cookie != '') {
@@ -336,17 +303,9 @@ var PiReader = (function () {
         return cookieValue;
     };
 
-    _private.refresh = function() {
-        $('#items_content').empty();
-        console.log('Refresh. Current item count ' + _private.local_items.length)
-        if (_private.local_items.length) {
-            $('#no_items').hide();
-            $.each(_private.local_items, function(id, item) {
-               $('#items_content').append(_private.__render_item(item));
-            });
-        } else {
-            $('#no_items').show();
-        }
+    _private.register_feed = function(feed){
+        var feed_id = feed.pk.toString();
+        _private.feed_updates[feed_id] = FeedUpdates(feed_id);
     };
 
     _private.reset = function(feed_id, feed_title) {
@@ -362,51 +321,98 @@ var PiReader = (function () {
         }
         if (_private.local_read.indexOf(ref) < 0) {
             _private.local_read.push(ref);
-            _private.feed_updates[_private.current_feed_id].mark_read(ref);
+            _private.read_item(ref);
         }
     };
 
-    _private.notifier = function() {
-        var notificationInProgress = false;
+    _private.read_item = function(ref){
+        _private.feed_updates[_private.current_feed_id].mark_read(ref);
+        _private.notify_changes();
+    };
+
+    _private.keep_item = function(ref){
+        _private.feed_updates[_private.current_feed_id].keep(ref);
+        _private.notify_changes();
+    };
+
+    _private.unkeep_item = function(ref){
+        _private.feed_updates[_private.current_feed_id].unkeep(ref);
+        _private.notify_changes();
+    };
+
+    _private.notify_changes = function(force) {
+        var now = new Date().valueOf();
+        if (!force && (now - _private.last_notified < 2000)) {
+            console.log("Notification is queued")
+            return;
+        }
+        _private.last_notified = now;
         for (var k in _private.feed_updates) {
             if (_private.feed_updates.hasOwnProperty(k) && _private.feed_updates[k].isDirty()){
-                console.log("Sending read notification for feed " + k );
-                var subscriptionUri = "./subscriptions/" + k;
-                var postData =  _private.feed_updates[k].stash();
-                $.ajax({
-                    url : subscriptionUri,
-                    method : 'POST',
-                    processData : false,
-                    data : JSON.stringify(postData),
-                    dataType : 'json',
-                    success : function(data, textStatus, jqXHR) {
-                        _private.feed_updates[k].completed();
-                        if (data.hasOwnProperty('unread_count')){
-                            _private.update_feed_count(k, data['unread_count']);
-                        }
-                    },
-                    error : function() {
-                        _private.feed_updates[k].unstash();
-                    },
-                    complete: function() {
-                        notificationInProgress = true;
-                        setTimeout(_private.notifier, 1000);
-                    },
-                    headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
-                });
-                break;
+                try {
+                    console.log("Sending read notification for feed " + k );
+                    var subscriptionUri = "./subscriptions/" + k;
+                    var postData =  _private.feed_updates[k].clone();
+                    $.ajax({
+                        url : subscriptionUri,
+                        method : 'POST',
+                        processData : false,
+                        data : JSON.stringify(postData),
+                        dataType : 'json',
+                        success : function(data, textStatus, jqXHR) {
+                            _private.feed_updates[k].completed(postData);
+                            if (data.hasOwnProperty('unread_count')){
+                                _private.update_feed_count(k, data['unread_count']);
+                            }
+                        },
+                        headers : {'X-CSRFToken' : _private.getCookie('csrftoken')}
+                    });
+                    break;
+                } catch (e){
+                    console.log("Notifier caught exception: " + e);
+                }
             }
-        }
-        if (!notificationInProgress) {
-            setTimeout(_private.notifier, 3000);
         }
     };
 
     _private.update_feed_count = function (feed_id, count){
-        $('#feed_' + feed_id + ' > .count').html('(' + count.toString() + ')');
+        $('#feed_' + feed_id + ' div.count').html('(' + count.toString() + ')');
+        var feed = $('#feed_' + feed_id);
+        if (count == 0) {
+            feed.removeClass('unread-items');
+        } else {
+            feed.addClass('unread-items');
+        }
     };
 
-    _private.notifier();
+    /**
+     * Performs client-side validation of a feed subscription URL
+     * @param url - string. The URL to be validated
+     * @returns true if the client-side validation is successful, false otherwise.
+     */
+    _private.validate_feed_url = function (url){
+        return true;
+    };
+
+    my.init = function(feedWidget) {
+        var self = this;
+        var that = _private;
+        this.feedWidget = feedWidget;
+        this.feedWidget
+            .bind('fwdisplayitem', function(event, data){
+                _private.set_current_item(data.item['ref']);
+            }).bind('fwreload', function(event) {
+                self.restore();
+            }).bind('fwkeepchange', function(event, data){
+                if (data.item['keep_unread']){
+                    _private.keep_item(data.item['ref']);
+                } else {
+                    _private.unkeep_item(data.item['ref']);
+                }
+            }).bind('fwfeedend', function(event){
+                _private.notify_changes(true);
+            })
+    };
 
     return my;
 }());

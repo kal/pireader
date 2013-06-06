@@ -10,7 +10,7 @@ import time
 from models import Feed, Category
 from forms import ImportForm
 import feedprocessor
-from storage import FeedStore
+from storage import FeedStore, EntryDoesNotExist
 
 @ensure_csrf_cookie
 @login_required
@@ -93,10 +93,16 @@ def feed(request, feed_id='0'):
         responseData = {}
         if 'keep' in feed_update:
             for item in feed_update['keep']:
-                store.keep(feed_id, item)
+                try:
+                    store.keep(feed_id, item)
+                except EntryDoesNotExist:
+                    pass;
         if 'unkeep' in feed_update:
             for item in feed_update['unkeep']:
-                store.unkeep(feed_id, item)
+                try:
+                    store.unkeep(feed_id, item)
+                except EntryDoesNotExist:
+                    pass;
         if 'read' in feed_update:
             feed.unread_count = store.mark_read(feed_id, feed_update['read'])
             feed.save()
@@ -104,6 +110,8 @@ def feed(request, feed_id='0'):
         if 'read_all' in feed_update:
             if feed_update['read_all'] < 0:
                 store.mark_all_read(feed_id)
+                feed.unread_count = 0
+                feed.save()
         if 'restore_all' in feed_update:
             store.restore_all_items(feed_id)
             entries = store.get_entries(feed_id)
