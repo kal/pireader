@@ -286,7 +286,9 @@ class FeedParserTests(StoreTestCase):
     def test_axecop_feed(self):
         axecop = self.create_feed("AxeCop", "http://axecop.com/index.php/achome/rss_2.0/")
         feedprocessor.process_feed(axecop, self.store)
-        self.assertGreater(0, self.store.get_counts(str(axecop.id)))
+        counts = self.store.get_counts(str(axecop.id))
+        self.assertGreater(counts['unread'], 0)
+        self.assertEqual(0, counts['keep'])
 
 
 @override_settings(READER=TEST_READER_SETTINGS)
