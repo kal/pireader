@@ -280,7 +280,13 @@ var PiReader = (function () {
             });
             var total = feed.fields.keep_count + feed.fields.unread_count;
             $('<div class="count"/>').html('(' + total.toString() + ')').appendTo(feed_link);
-            var feed_element = $('<li/>').attr('id', 'feed_' + feed.pk).addClass('feed').append(feed_link).appendTo(parent);
+            var feed_element = $('<li/>')
+                .attr('id', 'feed_' + feed.pk)
+                .addClass('feed')
+                .append(feed_link)
+                .appendTo(parent)
+                .attr("title", feed.fields.title);
+
             if (feed.fields.unread_count > 0) {
                 feed_element.addClass('unread-items');
             }
