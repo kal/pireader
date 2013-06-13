@@ -97,7 +97,11 @@ $.widget( "pireader.singleItemFeedWidget" , {
             // Ignore and just don't display a dateline
         }
         // Article Title
-        $('<h3/>').append($('<a/>').attr('href', item.link).html(item.title)).appendTo(item_wrapper);
+        $('<h3/>').append($('<a/>')
+            .attr('href', item.link)
+            .attr('target', '_new')
+            .html(item.title))
+            .appendTo(item_wrapper);
         // Byline
         var item_byline = $('<div/>').addClass('byline');
         if (item.author){
