@@ -24,7 +24,9 @@ class FeedStore:
     def add_entry(self, feed_id, entry):
         fn = self.__make_entry_filename(entry)
         entry_filename = os.path.join(self.__get_feed_directory(feed_id), fn)
-        if not os.path.exists(entry_filename):
+        read_filename = os.path.join(self.__get_feed_directory(feed_id), 'read', fn)
+        keep_filename = os.path.join(self.__get_keep_directory(feed_id), fn)
+        if not os.path.exists(entry_filename) and not os.path.exists(read_filename) and not os.path.exists(keep_filename):
             self.__write_entry(entry, entry_filename)
 
     def mark_read(self, feed_id, entry_ref_or_list):

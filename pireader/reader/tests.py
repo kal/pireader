@@ -117,6 +117,24 @@ class FeedStoreTests(StoreTestCase):
         feed_counts = fs.get_feed_counts()
         self.assertEqual(1, feed_counts[feed_id])
 
+    def test_cannot_add_read_entry(self):
+        fs = FeedStore()
+        f = self.create_feed("TestFeed", "http://example.org/test", 1)
+        feed_id = str(f.id)
+        fs.ensure_feed_directory(feed_id)
+        entry = {
+            'title': "Test Entry",
+            'published_parsed' : f.last_updated.utctimetuple(),
+            'guid' : 'http://example.org/feed1/?p=1'
+        }
+        fs.add_entry(feed_id, entry)
+        feed_counts = fs.get_feed_counts()
+        self.assertEqual(1, feed_counts[feed_id])
+        fs.mark_all_read(feed_id)
+        self.assertEqual(0, fs.get_feed_counts()[feed_id])
+        fs.add_entry(feed_id, entry)
+        self.assertEqual(0, fs.get_feed_counts()[feed_id])
+
     def test_read_entry(self):
         fs = FeedStore()
         f = self.create_feed('Feed 2', 'http://example.org/feed2/rss', 1)
@@ -283,11 +301,11 @@ class FeedParserTests(StoreTestCase):
         StoreTestCase.setUp(self)
         self.store = FeedStore()
 
-    def test_axecop_feed(self):
-        axecop = self.create_feed("AxeCop", "http://axecop.com/index.php/achome/rss_2.0/")
-        feedprocessor.process_feed(axecop, self.store)
-        counts = self.store.get_counts(str(axecop.id))
-        self.assertGreater(counts['unread'], 0)
+    def test_real_feed(self):
+        feed = self.create_feed("Techquila", "http://techquila.com/tech/feed/")
+        feedprocessor.process_feed(feed, self.store)
+        counts = self.store.get_counts(str(feed.id))
+        self.assertGreater(counts['unread'], 0, 'Expected more than 0 items for feed {0} after import from feed'.format(feed.id))
         self.assertEqual(0, counts['keep'])
 
 
