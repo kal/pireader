@@ -1,4 +1,5 @@
 {% extends "reader/base_jquery.html" %}
+{% load staticfiles %}
 {% block title %}PiReader Home{% endblock %}
 {% block main %}
     <div id="actions">
@@ -48,7 +49,8 @@
         });
         $(window).resize();
 
-        var displayWidget = $('#feed').singleItemFeedWidget();
+        var sp = "{% static 'reader/' %}";
+        var displayWidget = $('#feed').singleItemFeedWidget({staticPath: sp});
         PiReader.init(displayWidget);
     });
     </script>

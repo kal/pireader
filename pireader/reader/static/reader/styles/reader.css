@@ -154,3 +154,16 @@
     background-color: #d3d3d3;
     padding: 3px;
 }
+
+.fw-nav {
+    float:right;
+}
+
+.fw-nav img {
+    display: inline-block;
+    height:  25px;
+    width: 20px;
+    margin-left: 3px;
+    cursor: hand;
+    vertical-align: middle;
+}

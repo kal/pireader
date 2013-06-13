@@ -20,3 +20,9 @@ to ensure that the required library files are available *before* running:
 pip install -f requirements.txt
 
 otherwise installation of the opml package will fail.
+
+
+Acknowledgements
+----------------
+
+Icons used come from the excellent Silk set at famfamfam: http://www.famfamfam.com/lab/icons/silk/

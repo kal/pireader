@@ -14,7 +14,8 @@ $.widget( "pireader.singleItemFeedWidget" , {
         noItemsMessage : "No items left in this feed.",
         noItemsReload : "Show All Items",
         endOfItemsMessage : "You have reached the end of the items available in this feed. Click below or press N to refresh the feed.",
-        endOfItemsRefresh : "Refresh Feed"
+        endOfItemsRefresh : "Refresh Feed",
+        staticPath: '/static/reader/'
     },
 
     _create : function() {
@@ -115,6 +116,7 @@ $.widget( "pireader.singleItemFeedWidget" , {
         // Article actions
         var keep_unread = $('<input type="checkbox"/>')
                         .attr('id', this.baseId + '-keep')
+                        .attr('title', "Keep Unread ('K')")
                         .change(function(event){
                                 item['keep_unread'] = this.checked;
                                 self._trigger('keepchange', null, {item: item});
@@ -123,10 +125,28 @@ $.widget( "pireader.singleItemFeedWidget" , {
             keep_unread.attr('checked', 'true');
         }
 
+        // Article navigation
+        var nav = $('<div/>').addClass('fw-nav')
+            .append($('<a/>')
+                    .attr('href', '#')
+                    .attr('title', "Previous Item ('P')")
+                    .append($('<img/>')
+                        .attr('src', this.options.staticPath + 'images/prev.png')
+                        .attr('alt', '<-')
+                        .click(function(){self.previousItem()})))
+            .append($('<a/>')
+                .attr('href', '#')
+                .attr('title', "Next Item ('N')")
+                .append($('<img/>')
+                        .attr('src', this.options.staticPath + 'images/next.png')
+                        .attr('alt', '->')
+                        .click(function(){self.nextItem()})));
+
         $('<div/>').addClass('fw-actions')
             .attr('id', this.baseId + '-actions')
             .append($('<label>Keep Unread</label>').attr('for', this.baseId + '-keep'))
             .append(keep_unread)
+            .append(nav)
             .appendTo(item_wrapper);
 
         return item_wrapper;
